@@ -1,10 +1,22 @@
 <%= form_for @exam do |f| %>
 
-  <%= f.file_field :data %> <br \>
+  <%= f.label :name %>
+  <%= f.text_field :name %> <br />
+
+  <%= f.label :start_time %>
+  <%= f.datetime_select :start_time %> <br />
+
+  <%= f.label :end_time %>
+  <%= f.datetime_select :end_time %> <br />
+
+  <%= f.label :locked %>
+  <%= f.check_box :locked %> <br />
+
+  <%= f.file_field :data %> <br />
 
   <% @users.each do |u| %>
     <%= label_tag "user[#{u.id}]", u.name %>
-    <%= check_box_tag "user[#{u.id}]", true, true %><br \>
+    <%= check_box_tag "user[#{u.id}]", true, true %><br />
   <% end %>
 
   <%= f.submit %>

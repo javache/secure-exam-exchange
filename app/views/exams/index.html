@@ -1,4 +1,6 @@
 <h1>Exams</h1>
-<% @exams.each do |exam| %>
-  <%= link_to exam.name, exam_path(exam) %>
-<% end %>
+<ul>
+  <% @exams.each do |exam| %>
+    <li><%= link_to exam.name, exam_path(exam) %></li>
+  <% end %>
+</ul>

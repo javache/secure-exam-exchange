@@ -1,2 +1,5 @@
-<h1> Exam </h1>
+<h1><%= @exam.name %></h1>
 <%= link_to "Exam data",  @exam.data.url %>
+
+Start <%= @exam.start_time %>
+End <%= @exam.end_time %>
