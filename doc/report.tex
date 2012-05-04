@@ -2,6 +2,10 @@
 
 \usepackage{a4wide}
 \usepackage{graphicx}
+\usepackage{paralist}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
 
 \title{Project Information Security 2012}
 \author{Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt, Toon Willems}
@@ -13,9 +17,27 @@
 
 \newpage
 
-\section{Requirements}
+\section{Requirements and Architecture}
 
-What do we need?
+We chose to design system with a central component, i.e., a server, to which the
+different clients can connect. One disadvantage of this approach is that this
+server needs to be trusted to some extent---which we tried to limit as much as
+possible, more on this later---by the users.
+
+\subsection{Assumptions}
+
+We need to assume that every user (students as well as professors) are
+registered on this platform. These accounts can be created when a student
+enrolls in the institure, or when a professor is employed.
+
+We use an asymptotic encryption mechanism for many features, so we also need to
+assume that each user has been a keypair assigned. These keypairs can be created
+at the same time as the accounts, with some option to reset a keypair when it
+has been compromised.
+
+\subsection{Functionality}
+
+We can see extract a number of use cases from the project specification:
 
 \subsection{Expected attacks}
 
