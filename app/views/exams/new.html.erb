@@ -9,12 +9,12 @@
 
     <div class="field">
       <%= f.label :start_time %>
-      <%= f.datetime_select :start_time %>
+      <%= f.datetime_select :start_time, :start_year => Time.now.year %>
     </div>
 
     <div class="field">
       <%= f.label :end_time %>
-      <%= f.datetime_select :end_time %>
+      <%= f.datetime_select :end_time, :start_year => Time.now.year  %>
     </div>
 
     <div class="field">
