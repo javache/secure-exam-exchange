@@ -1,4 +1,8 @@
 SecureExamExchange::Application.routes.draw do
+  resources :participations
+
+  resources :exams
+
   resources :users
 
   # The priority is based upon order of creation:

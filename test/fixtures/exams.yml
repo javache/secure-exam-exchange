@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  start_time: 2012-05-04 11:28:56
+  end_time: 2012-05-04 11:28:56
+  locked: 
+
+two:
+  name: MyString
+  start_time: 2012-05-04 11:28:56
+  end_time: 2012-05-04 11:28:56
+  locked: 
