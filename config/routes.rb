@@ -1,7 +1,11 @@
 SecureExamExchange::Application.routes.draw do
   resources :participations
 
-  resources :exams
+  resources :exams do
+    member do
+      get "upload_answers"
+    end
+  end
 
   resources :users
 
