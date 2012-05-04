@@ -28,16 +28,37 @@ possible, more on this later---by the users.
 
 We need to assume that every user (students as well as professors) are
 registered on this platform. These accounts can be created when a student
-enrolls in the institure, or when a professor is employed.
+enrolls in the institute, or when a professor is employed.
+
+The users of the platform should be able to verify that they are actually
+talking to the platform, and not some malicious individual posing as the
+platform. Since we will use HTTPS for all communication, this should not be a
+problem.
 
 We use an asymptotic encryption mechanism for many features, so we also need to
-assume that each user has been a keypair assigned. These keypairs can be created
-at the same time as the accounts, with some option to reset a keypair when it
-has been compromised.
+assume that each user has a keypair assigned. These keypairs can be created at
+the same time as the accounts, with some option to reset a keypair when it has
+been compromised.
 
 \subsection{Functionality}
 
-We can see extract a number of use cases from the project specification:
+\subsubsection{Logging in}
+
+Users (students and professors) should be able to log in to the application.
+This means we need some kind of authentication: it is obvious that a student
+should not be able to pose as a professor.
+
+\subsubsection{Distributing exams}
+
+The professor needs to be able to distribute an exam to the students. He first
+uploads it to the central server, and selects a number of students. These
+students can download it from there, at some point in time, also specified by
+the professor.
+
+Integrity is important here: we must ensure the students see the same exam that
+the professor posted. Furthermore, only the selected students should be able to
+see the exam, and we have to make sure they cannot view the exam before they are
+allowed to.
 
 \subsection{Expected attacks}
 
