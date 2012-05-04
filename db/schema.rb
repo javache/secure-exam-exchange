@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20120504095222) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.boolean  "locked"
+    t.integer  "user_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "data_file_name"
