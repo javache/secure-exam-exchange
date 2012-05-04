@@ -1,4 +1,4 @@
-secure-exam-xchange
-===================
+Secure Exam eXchange
+====================
 
 Project informatiebeveiling 2012
