@@ -21,32 +21,52 @@ body {
     color: #333333;
 }
 
-#header {
-    padding-top: 25px;
-    height: 50px;
-    border-bottom: 1px solid black;
+/* Header */
+h1 {
+    margin: 20px 0 0 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #888;
 }
 
-#header h1 {
-    margin: 0px;
-}
-
-#header h1 a:hover {
-    text-decoration:none;
-}
-
-a {
-    text-decoration: none;
+h1 a {
     color: inherit;
+    padding: 5px 10px;
+}
+
+h1 a:hover {
+    text-decoration: none;
+    background: #ddd;
+    color: #000;
+}
+
+/* Content */
+#content {
+    background: #eee;
+    margin: 10px 0;
+    padding: 1px 20px 10px 20px;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: #888;
+}
+
+/* General styles */
+a {
+    color: #800;
+    border-bottom: 1px dotted #800;
+    text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
-    color: #555555;
+    color: #800;
+    border-bottom: 1px solid #800;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
     font-weight: normal;
+    margin-top: 0.5em;
 }
 
 fieldset {
@@ -59,8 +79,7 @@ fieldset {
 }
 
 label {
-    display: block;
-    float: left;
+    display: inline-block;
     width: 100px;
 }
 

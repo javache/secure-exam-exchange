@@ -7,12 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div id="header">
-    <h1><%= link_to "Secure Exam eXchange", root_url %></h1>
-  </div>
+  <h1><%= link_to "Secure Exam eXchange", root_url %></h1>
   <div id="content">
     <%= yield %>
   </div>
-
+  <footer>
+    <p>Application by Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt and Toon Willems</p>
+  </footer>
 </body>
 </html>

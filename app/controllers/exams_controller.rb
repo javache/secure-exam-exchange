@@ -1,5 +1,4 @@
 class ExamsController < ApplicationController
-
   respond_to :html
 
   def index
@@ -12,7 +11,7 @@ class ExamsController < ApplicationController
   end
 
   def create
-    exam = Exam.create!(params[:exam])
+    exam = Exam.create(params[:exam])
 
     users = User.find params[:user].keys.map(&:to_i)
     exam.add_users users
@@ -35,6 +34,4 @@ class ExamsController < ApplicationController
 
     respond_with @participation
   end
-
-
 end

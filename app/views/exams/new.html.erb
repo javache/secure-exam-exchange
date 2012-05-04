@@ -1,26 +1,27 @@
-<h2>New Exam</h2>
+<h2>Create new exam</h2>
 
 <%= form_for @exam do |f| %>
   <fieldset>
-    <%= f.label :name %>
-    <%= f.text_field :name %> <br />
+    <p><%= f.label :name %>
+    <%= f.text_field :name %></p>
 
-    <%= f.label :start_time %>
-    <%= f.datetime_select :start_time, :start_year => Time.now.year %> <br />
+    <p><%= f.label :start_time %>
+    <%= f.datetime_select :start_time %></p>
+    <p><%= f.label :end_time %>
+    <%= f.datetime_select :end_time %></p>
 
-    <%= f.label :end_time %>
-    <%= f.datetime_select :end_time, :start_year => Time.now.year  %> <br />
+    <p><%= f.label :locked %>
+    <%= f.check_box :locked %></p>
 
-    <%= f.label :locked %>
-    <%= f.check_box :locked %> <br />
+    <p><%= f.label :data %>
+    <%= f.file_field :data %></p>
 
-    <%= f.file_field :data %> <br />
-
+    <p><%= f.label :participants %>
     <% @users.each do |u| %>
       <%= label_tag "user[#{u.id}]", u.name %>
       <%= check_box_tag "user[#{u.id}]", true, true %><br />
-    <% end %>
+    <% end %></p>
 
-    <%= f.submit %>
+    <p><%= f.submit %></p>
   <fieldset>
 <% end %>
