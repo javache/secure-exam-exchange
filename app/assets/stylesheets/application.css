@@ -53,16 +53,17 @@ fieldset {
     border: 0px;
 }
 
-fieldset .field {
+fieldset {
     margin-bottom: 5px;
     padding: 0px;
 }
 
-.field label {
-    display: inline-block;
+label {
+    display: block;
+    float: left;
     width: 100px;
 }
 
-.field input[type="text"] {
-    width: 300px;
+input, select {
+    margin-bottom: 5px;
 }

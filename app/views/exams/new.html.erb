@@ -2,36 +2,24 @@
 
 <%= form_for @exam do |f| %>
   <fieldset> 
-    <div class="field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </div>
+    <%= f.label :name %>
+    <%= f.text_field :name %> <br />
 
-    <div class="field">
-      <%= f.label :start_time %>
-      <%= f.datetime_select :start_time, :start_year => Time.now.year %>
-    </div>
+    <%= f.label :start_time %>
+    <%= f.datetime_select :start_time, :start_year => Time.now.year %> <br />
 
-    <div class="field">
-      <%= f.label :end_time %>
-      <%= f.datetime_select :end_time, :start_year => Time.now.year  %>
-    </div>
+    <%= f.label :end_time %>
+    <%= f.datetime_select :end_time, :start_year => Time.now.year  %> <br />
 
-    <div class="field">
-      <%= f.label :locked %>
-      <%= f.check_box :locked %>
-    </div>
+    <%= f.label :locked %>
+    <%= f.check_box :locked %> <br />
 
-    <div class="field">
-      <%= f.file_field :data %>
-    </div>
+    <%= f.file_field :data %> <br />
 
-    <div class="field">
-      <% @users.each do |u| %>
-        <%= label_tag "user[#{u.id}]", u.name %>
-        <%= check_box_tag "user[#{u.id}]", true, true %><br />
-      <% end %>
-    </div>
+    <% @users.each do |u| %>
+      <%= label_tag "user[#{u.id}]", u.name %>
+      <%= check_box_tag "user[#{u.id}]", true, true %><br />
+    <% end %>
 
     <%= f.submit %>
   <fieldset>
