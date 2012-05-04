@@ -55,5 +55,11 @@ module SecureExamExchange
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # CAS
+    config.rubycas.cas_base_url = "https://login.ugent.be/"
+    config.rubycas.validate_url = "https://login.ugent.be/samlValidate"
+    config.rubycas.logger = Rails.logger
+    config.rubycas.enable_single_sign_out = true
   end
 end
