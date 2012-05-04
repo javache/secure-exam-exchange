@@ -9,6 +9,8 @@ SecureExamExchange::Application.routes.draw do
   match "cas/verify"
   get "cas/logout"
 
+  root :to => 'exams#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

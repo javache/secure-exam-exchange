@@ -31,6 +31,10 @@ body {
     margin: 0px;
 }
 
+#header h1 a:hover {
+    text-decoration:none;
+}
+
 a {
     text-decoration: none;
     color: inherit;
