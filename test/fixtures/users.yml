@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ugent_id: MyString
+  gpg_public_key: MyString
+  email: MyString
+  name: MyString
+
+two:
+  ugent_id: MyString
+  gpg_public_key: MyString
+  email: MyString
+  name: MyString
