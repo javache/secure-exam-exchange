@@ -1,0 +1,4 @@
+<h1>Exams</h1>
+<% @exams.each do |exam| %>
+  <%= link_to exam.name, exam_path(exam) %>
+<% end %>
