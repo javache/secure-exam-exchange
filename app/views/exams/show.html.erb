@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 <h2><%= @exam.name %></h2>
 <%= link_to "Exam data",  @exam.data.url %> <br />
 
-=======
-<h1> Exam </h1>
-<p>Locked: <%= @exam.locked? %></p>
-<p>Data: <%= link_to "Exam data",  @exam.data.url %></p>
->>>>>>> add field for locked attribute
 Participants:
 <ul>
 <% @exam.participations.each do |p| %>
   <li><%= p.user.name %></li>
 <% end %>
 </ul>
+Locked: <%= @exam.locked? %> <br />
 Start <%= @exam.start_time %> <br />
 End <%= @exam.end_time %> <br />
