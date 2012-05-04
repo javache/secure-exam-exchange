@@ -24,7 +24,7 @@ class ExamsController < ApplicationController
     @users = User.all
   end
 
-  def upload
+  def upload_answers
     # TODO: see which user this is logged in and use
     # that participation object
     user = User.first

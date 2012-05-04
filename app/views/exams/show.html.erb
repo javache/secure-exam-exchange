@@ -10,3 +10,5 @@ Participants:
 Locked: <%= @exam.locked? %> <br />
 Start <%= @exam.start_time %> <br />
 End <%= @exam.end_time %> <br />
+
+<%= link_to "Upload answers", upload_answers_exam_path(@exam) %>
