@@ -13,9 +13,10 @@ class ExamsController < ApplicationController
 
   def create
     exam = Exam.create!(params[:exam])
-    users = params[:user].keys.map {|k| User.find(k.to_i) }
-    users.map {|user| Participation.create(:user => user, :exam => exam) }
-    exam.reload
+
+    users = User.find params[:user].keys.map(&:to_i)
+    exam.add_users users
+
     respond_with exam
   end
 
