@@ -7,7 +7,7 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
-\title{Project Information Security 2012}
+\title{Project Information Security \\ Securing an online exam}
 \author{Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt, Toon Willems}
 
 \begin{document}
@@ -17,12 +17,18 @@
 
 \newpage
 
+\section{Introduction}
+
 \section{Requirements and Architecture}
 
-We chose to design system with a central component, i.e., a server, to which the
-different clients can connect. One disadvantage of this approach is that this
-server needs to be trusted to some extent---which we tried to limit as much as
-possible, more on this later---by the users.
+We chose to design a system with a central component, i.e., a server, to which
+the different clients can connect. For users, it would appear that this central
+server is their exam platform. This is not true however, as responsibilities and
+software is distributed over all platform participants.
+
+One disadvantage of this approach is that
+this server needs to be trusted to some extent---which we tried to limit as much
+as possible, more on this later---by the users.
 
 \subsection{Assumptions}
 
@@ -30,15 +36,20 @@ We need to assume that every user (students as well as professors) are
 registered on this platform. These accounts can be created when a student
 enrolls in the institute, or when a professor is employed.
 
-The users of the platform should be able to verify that they are actually
-talking to the platform, and not some malicious individual posing as the
-platform. Since we will use HTTPS for all communication, this should not be a
-problem.
+The users of the platform should be able to verify that they are indeed
+talking to the official platform instance, and not to some rogue machine posing
+as the platform. This problem is mostly alleviated by using HTTPS and a trusted
+cerficate for all communication.
 
-We use an asymptotic encryption mechanism for many features, so we also need to
+% TODO: misschien wat specifieker zeggen wat HTTPS oplost?
+
+We use an asymmetric encryption mechanism for many features, so we also need to
 assume that each user has a keypair assigned. These keypairs can be created at
 the same time as the accounts, with some option to reset a keypair when it has
 been compromised.
+
+Ideally these keys are also signed by an official entitity so
+that users can lookup and trust public keys found through a public key exchange.
 
 \subsection{Functionality}
 
