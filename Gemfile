@@ -20,6 +20,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :production do
+  # Use unicorn as the web server
+  gem 'unicorn'
+end
+
 gem 'jquery-rails'
 gem "paperclip", "~> 3.0"
 
@@ -28,9 +33,6 @@ gem "paperclip", "~> 3.0"
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
-# Use unicorn as the web server
-# gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
