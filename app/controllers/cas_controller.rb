@@ -1,6 +1,6 @@
 class CasController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :verify
-  skip_before_filter :require_user, :only => :verify
+  skip_before_filter :require_valid_user
   before_filter RubyCAS::Filter, :only => :verify
 
   def auth
@@ -34,6 +34,7 @@ class CasController < ApplicationController
     u.name = session["cas_extra_attributes"]["givenname"] + ' ' + session["cas_extra_attributes"]["surname"]
     u.email = session["cas_extra_attributes"]["mail"]
     u.save
+    session["user_id"] = u.id
 
     if session[:post_cas_redirect]
       redirect_to session[:post_cas_redirect]

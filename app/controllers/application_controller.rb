@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   attr_reader :current_user
 
+  # Disable this to work locally
   before_filter :require_valid_user
   def require_valid_user
     if session['user_id'].blank?
