@@ -17,14 +17,14 @@
     <%= f.file_field :data %></p>
 
     <p><%= f.label :participants %>
-      <ul>
+      <ul class="particpant-list">
         <% @users.each do |u| %>
-          <li><%= label_tag "user[#{u.id}]", u.name %>
-          <%= check_box_tag "user[#{u.id}]", true, true %></li>
+          <li><%= check_box_tag "user[#{u.id}]", true, true %>
+          <%= label_tag "user[#{u.id}]", u.name %></li>
         <% end %>
       </ul>
     </p>
 
     <p><%= f.submit %></p>
-  <fieldset>
+  </fieldset>
 <% end %>

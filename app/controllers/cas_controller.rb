@@ -1,5 +1,6 @@
 class CasController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :verify
+  skip_before_filter :require_user, :only => :verify
   before_filter RubyCAS::Filter, :only => :verify
 
   def auth
@@ -28,11 +29,16 @@ class CasController < ApplicationController
     # Don't save the ticket, it contains a singleton somewhere that can't be marshalled
     session[:cas_last_valid_ticket] = nil
 
+    # Associate the new user with a website user
+    u = User.find_or_create_by_ugent_id session["cas_extra_attributes"]["ugentStudentID"]
+    u.name = session["cas_extra_attributes"]["givenname"] + ' ' + session["cas_extra_attributes"]["surname"]
+    u.email = session["cas_extra_attributes"]["mail"]
+    u.save
+
     if session[:post_cas_redirect]
       redirect_to session[:post_cas_redirect]
     else
-      render 'verify'
-      # redirect_to root_url
+      redirect_to root_url
     end
   end
 

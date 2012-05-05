@@ -31,12 +31,14 @@ h1 {
 h1 a {
     color: inherit;
     padding: 5px 10px;
+    border: none;
 }
 
 h1 a:hover {
     text-decoration: none;
     background: #ddd;
     color: #000;
+    border: none;
 }
 
 /* Content */
