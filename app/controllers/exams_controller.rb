@@ -27,7 +27,7 @@ class ExamsController < ApplicationController
   def upload_answers
     # TODO: see which user this is logged in and use
     # that participation object
-    user = User.first
+    user = current_user
 
     exam = Exam.find(params[:id])
     @participation = exam.participations.where(:user_id => user.id).first

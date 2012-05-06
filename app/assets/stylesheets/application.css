@@ -46,6 +46,13 @@ h1 a:hover {
     background: #eee;
     margin: 10px 0;
     padding: 1px 20px 10px 20px;
+    position: relative;
+}
+
+.current-user {
+    float: right;
+    margin: 1em 0;
+    font-size: 0.8em;
 }
 
 footer {
@@ -87,4 +94,12 @@ label {
 
 input, select {
     margin-bottom: 5px;
+}
+
+.checkbox-list {
+    list-style: none;
+}
+
+.checkbox-list label {
+    width: auto;
 }

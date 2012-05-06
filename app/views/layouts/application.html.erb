@@ -9,6 +9,11 @@
 <body>
   <h1><%= link_to "Secure Exam eXchange", root_url %></h1>
   <div id="content">
+    <% if logged_in? %>
+    <div class="current-user">
+      Logged in as <%= current_user.name %>. <%= link_to "Log out", cas_logout_path %>
+    </div>
+    <% end %>
     <%= yield %>
   </div>
   <footer>

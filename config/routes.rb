@@ -1,19 +1,17 @@
 SecureExamExchange::Application.routes.draw do
-  resources :participations
+  root :to => 'application#welcome'
 
+  resources :participations
   resources :exams do
     member do
       get "upload_answers"
     end
   end
-
   resources :users
 
-  get "cas/auth"
+  match "cas/auth"
   match "cas/verify"
   get "cas/logout"
-
-  root :to => 'exams#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

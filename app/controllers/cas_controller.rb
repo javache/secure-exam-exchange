@@ -34,7 +34,7 @@ class CasController < ApplicationController
     u.name = session["cas_extra_attributes"]["givenname"] + ' ' + session["cas_extra_attributes"]["surname"]
     u.email = session["cas_extra_attributes"]["mail"]
     u.save
-    session["user_id"] = u.id
+    session[:user_id] = u.id
 
     if session[:post_cas_redirect]
       redirect_to session[:post_cas_redirect]
