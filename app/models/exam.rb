@@ -12,8 +12,6 @@ class Exam < ActiveRecord::Base
   # An exam is in progress if if start_time < Time.now < end_time
   # and it is not locked
   def in_progress?
-    (start_time <=> Time.now) == -1 and
-    (Time.now <=> end_time) == -1 and
-    !locked
+    Time.now.utc.between?(start_time,end_time) && !locked?
   end
 end
