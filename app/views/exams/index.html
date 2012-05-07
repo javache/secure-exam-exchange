@@ -7,7 +7,7 @@
 
 <h2>Exams you've created</h2>
 <ul>
-  <% @exams.each do |exam| %>
+  <% @tests.each do |exam| %>
     <li><%= link_to exam.name, exam_path(exam) %></li>
   <% end %>
 </ul>

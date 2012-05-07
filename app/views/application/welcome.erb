@@ -1,2 +1,6 @@
 <p>Welcome to the secure online exam exchange. Please log in to continue.</p>
-<p><%= button_to "Log in", exams_path %></p>
+<%#
+  I can understand why you want a button here, but this generated a
+  form which would trigger the exams#create action. (Since it was a POST action)
+%>
+<p><%= link_to "Log in", exams_path %></p>
