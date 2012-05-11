@@ -33,4 +33,16 @@ class ExamsController < ApplicationController
 
     respond_with @participation
   end
+
+  def download_answers
+    exam = Exam.find(params[:id])
+    if current_user != exam.user
+      raise "you're not allowed to download answers for exams you haven't created"
+    end
+
+    @participations = exam.participations.select { |p| p.answers.present? }
+
+    # TODO: maybe generate one big zip with all the current answers in?
+    # See fk-enrolment
+  end
 end

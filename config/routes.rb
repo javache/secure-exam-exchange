@@ -5,6 +5,7 @@ SecureExamExchange::Application.routes.draw do
   resources :exams do
     member do
       get "upload_answers"
+      get "download_answers"
     end
   end
   resources :users
