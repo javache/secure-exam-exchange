@@ -68,7 +68,7 @@ organisation without much effort to application developers.
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.75\textwidth]{images/login.pdf}
+\includegraphics[width=0.9\textwidth]{images/login.pdf}
 \caption{Messages exchanged when logging in}
 \label{fig:login}
 \end{center}
@@ -98,7 +98,7 @@ in figure \ref{fig:login} and is summarized below.
   application session for the authenticated user.
 \end{enumerate}
 
-\subsubsection{Distributing exams}
+\subsubsection{Setup and distribution of exams}
 
 The professor needs to be able to distribute an exam to the students. He first
 uploads it to the central server, and selects a number of students. These
@@ -109,32 +109,6 @@ Integrity is important here: we must ensure the students see the same exam that
 the professor posted. Furthermore, only the selected students should be able to
 see the exam, and we have to make sure they cannot view the exam before they are
 allowed to.
-
-
-
-\subsection{Expected attacks}
-
-How will attackers try to compromise our system? Why will they fail?
-
-\subsection{Limitations}
-
-In what ways is our system not protected? What do we need to trust?
-
-\section{Practical considerations}
-
-Is it practically feasible to lock up a few dozen students in a small room for a
-few days, without food or water?
-
-\section{Concrete implementation}
-
-Some implementation details, we should mention the actually used algorithms
-here.
-
-\section{Conclusion}
-
-\section{Images}
-
-A picture is worth a thousand words.
 
 \begin{figure}
 \begin{center}
@@ -160,6 +134,9 @@ A picture is worth a thousand words.
 \end{center}
 \end{figure}
 
+
+\subsubsection{Receving answers from students}
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.75\textwidth]{images/upload_answers.pdf}
@@ -175,6 +152,8 @@ A picture is worth a thousand words.
 \label{fig:download-answers}
 \end{center}
 \end{figure}
+
+\subsubsection{Distributing exam results}
 
 \begin{figure}
 \begin{center}
@@ -192,6 +171,27 @@ A picture is worth a thousand words.
 \end{center}
 \end{figure}
 
-+8000 words.
+
+\subsection{Expected attacks}
+
+How will attackers try to compromise our system? Why will they fail?
+
+\subsection{Limitations}
+
+In what ways is our system not protected? What do we need to trust?
+
+\section{Practical considerations}
+
+Is it practically feasible to lock up a few dozen students in a small room for a
+few days, without food or water?
+
+\section{Concrete implementation}
+
+Some implementation details, we should mention the actually used algorithms
+here.
+
+\section{Conclusion}
+
+INSERT +8000 WORDS HERE.
 
 \end{document}
