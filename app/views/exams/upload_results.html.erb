@@ -1,0 +1,8 @@
+<h2>Upload results per user</h2>
+<ul>
+
+  <% @participations.each do |par| %>
+    <li><%= link_to par.user.name, upload_results_participation_path(par) %></li>
+  <% end %>
+
+</ul>

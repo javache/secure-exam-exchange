@@ -18,4 +18,8 @@ class ParticipationsController < ApplicationController
 
     respond_with @participation
   end
+
+  def upload_results
+    @participation = Participation.find params[:id]
+  end
 end

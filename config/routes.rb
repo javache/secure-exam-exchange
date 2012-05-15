@@ -1,11 +1,17 @@
 SecureExamExchange::Application.routes.draw do
   root :to => 'application#welcome'
 
-  resources :participations
+  resources :participations do
+    member do
+      get "upload_results"
+    end
+  end
+
   resources :exams do
     member do
       get "upload_answers"
       get "download_answers"
+      get "upload_results"
     end
   end
   resources :users

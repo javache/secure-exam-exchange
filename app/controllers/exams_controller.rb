@@ -45,4 +45,10 @@ class ExamsController < ApplicationController
     # TODO: maybe generate one big zip with all the current answers in?
     # See fk-enrolment
   end
+
+  def upload_results
+    exam = Exam.find(params[:id])
+    @participations = exam.participations
+
+  end
 end
