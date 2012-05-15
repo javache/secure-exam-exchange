@@ -24,7 +24,7 @@ class ExamsController < ApplicationController
 
   def new
     @exam = Exam.new
-    @users = User.all
+    @users = User.where "id != :id", :id => current_user.id
   end
 
   def upload_answers
