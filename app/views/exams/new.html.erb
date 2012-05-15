@@ -1,7 +1,13 @@
 <h2>Create new exam</h2>
 
-<%= form_for @exam do |f| %>
+<%= form_for(@exam) do |f| %>
   <fieldset>
+    <ul>
+      <% @exam.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+
     <p><%= f.label :name %>
     <%= f.text_field :name %></p>
 
@@ -15,14 +21,6 @@
 
     <p><%= f.label :data %>
     <%= f.file_field :data %></p>
-
-    <p><%= f.label :participants %></p>
-    <ul class="checkbox-list">
-      <% @users.each do |u| %>
-        <li><%= check_box_tag "user[#{u.id}]", true, true %>
-        <%= label_tag "user[#{u.id}]", u.name %></li>
-      <% end %>
-    </ul>
 
     <p><%= f.submit %></p>
   </fieldset>

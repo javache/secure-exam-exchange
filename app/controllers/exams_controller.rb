@@ -11,20 +11,14 @@ class ExamsController < ApplicationController
   end
 
   def create
-    exam = Exam.create(params[:exam])
-
-    exam.user = current_user
-    exam.save
-
-    users = User.find params[:user].keys.map(&:to_i)
-    exam.add_users users
-
-    respond_with exam
+    @exam = Exam.create(params[:exam])
+    @exam.user = current_user
+    @exam.save
+    respond_with @exam
   end
 
   def new
     @exam = Exam.new
-    @users = User.where "id != :id", :id => current_user.id
   end
 
   def upload_answers
