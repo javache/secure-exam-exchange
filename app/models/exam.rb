@@ -7,7 +7,7 @@ class Exam < ActiveRecord::Base
 
   # Add the users as participants
   def add_users(users)
-    users.map { |u| participations.create(user: u) }
+    users.map { |u| participations.find_or_create_by_user_id(u.id) }
   end
 
   # An exam is in progress if if start_time < Time.now < end_time

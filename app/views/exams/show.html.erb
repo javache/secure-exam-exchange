@@ -7,6 +7,9 @@ Participants:
   <li><%= p.user.name %></li>
 <% end %>
 </ul>
+
+<%= link_to "Add participants", add_users_exam_path(@exam) %> <br />
+
 Locked: <%= @exam.locked? %> <br />
 Start <%= @exam.start_time %> <br />
 End <%= @exam.end_time %> <br />

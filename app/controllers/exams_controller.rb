@@ -21,6 +21,17 @@ class ExamsController < ApplicationController
     @exam = Exam.new
   end
 
+  def add_users
+      @exam = Exam.find params[:id]
+    if request.put?
+      users = User.find params[:user].keys.map(&:to_i)
+      @exam.add_users users
+      redirect_to exam_path(@exam)
+    else
+      @users = User.where "id != :id", id: current_user.id
+    end
+  end
+
   def upload_answers
     exam = Exam.find(params[:id])
     @participation = exam.participations.where(:user_id => current_user.id).first
