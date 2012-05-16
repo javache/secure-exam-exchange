@@ -2,7 +2,11 @@ class Exam < ActiveRecord::Base
   has_many :participations
   belongs_to :user
 
+  validates :name, :presence => true
+  validate :start_before_end
+
   has_attached_file :data
+  validates_attachment_presence :data
   validate :sane_exam_zip
 
   # Add the users as participants
@@ -16,10 +20,15 @@ class Exam < ActiveRecord::Base
     Time.now.utc.between?(start_time,end_time) && !locked?
   end
 
+  def start_before_end
+    if start_time >= end_time then
+      errors.add(:end_time, "can't be before start time")
+    end
+  end
+
   # Validator method to check if the zip file is sane
   def sane_exam_zip
-    puts data.path
-    if File.extname(data_file_name) != ".zip" then
+    if File.extname(data_file_name || "") != ".zip" then
       errors.add(:data, "needs to be a zip file")
       return
     end
