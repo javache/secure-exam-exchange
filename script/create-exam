@@ -26,6 +26,17 @@ fi
 FILE="$1"
 ZIP="$FILE.zip"
 
+# Sign file
+FILE_SIG="$FILE.sig"
+echo "Signing $FILE..."
+gpg --detach-sig "$FILE"
+
+# Check if signing worked: both files must exist
+if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then
+    echo "Signing $FILE failed, aborting!"
+    exit 1
+fi
+
 # Lock if necessary
 if "$LOCK"; then
     FILE_ENC="$FILE.enc"
@@ -39,18 +50,6 @@ if "$LOCK"; then
     fi
 
     FILE="$FILE_ENC"
-fi
-
-
-# Sign file
-FILE_SIG="$FILE.sig"
-echo "Signing $FILE..."
-gpg --detach-sig "$FILE"
-
-# Check if signing worked: both files must exist
-if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then
-    echo "Signing $FILE failed, aborting!"
-    exit 1
 fi
 
 # Zip necessary files

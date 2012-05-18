@@ -19,6 +19,7 @@
 \newpage
 
 \section{Introduction}
+\label{sec:introduction}
 
 Asking students to design an exam system is like asking a woodcutter to describe
 his perfect axe. Exams are an essential part of our education system and each of
@@ -33,9 +34,8 @@ specifically exams that are taken over the public internet.
 In this report we discuss the challenges and attack vectors that are inherent
 with such a setup and provide a practical solution for them.
 
-% TODO: hier beneden aanvalsmogenlijkheden goed bespreken
-
 \section{Requirements and Architecture}
+\label{sec:requirements}
 
 We chose to design a system with a central component, i.e. a server, to which
 the different clients can connect. For users, it would appear that this central
@@ -46,6 +46,7 @@ One disadvantage of this approach is that this server needs to be trusted to
 some extent by the users, which we tried to limit as much as possible.
 
 \subsection{Assumptions}
+\label{subsec:req-assumptions}
 
 We need to assume that every user (students as well as professors) are
 registered on this platform. These accounts can be created when a student
@@ -66,6 +67,7 @@ Ideally these keys are also signed by an official entitity so that users can
 lookup and trust public keys found through a public key exchanges.
 
 \subsection{Functionality}
+\label{subsec:req-functionality}
 
 \subsubsection{Logging in}
 
@@ -73,6 +75,81 @@ Users (students and professors) should be able to log in to the application,
 prove their identity and receive the correct permissions. This means we need
 some kind of authentication: it is obvious that a student should not be able to
 pose as a professor and modify an exam, or submit answers as another student.
+
+\subsubsection{Setup and distribution of exams}
+
+The professor needs to be able to distribute an exam to the students. He first
+uploads it to the central server, and selects a number of students. These
+students can download it from there, at some point in time, also specified by
+the professor.
+
+Integrity is important here: we must ensure the students see the same exam that
+the professor posted without any alterations. Furthermore, only the selected
+students should be able to see the exam, and we have to make sure they cannot
+view the exam before they are allowed to.
+
+Another goal of the exam platform is to simplify the disclosure of the exam
+questions for the professor. We provide 2 solutions:
+
+\begin{enumerate}
+
+\item \textbf{Timed exam release}: when setting up the exam, the professor can
+choose the period of time during which the exam should be available to selected
+students. Outside this time period the system will not allow any access to the
+data.
+
+\item \textbf{Locked exams}: as storing the exam unencrypted on the server is a
+potential, albeit small, risk (see \autoref{subsec:req-attacks}), we provide the
+professor with the additional option of uploading an encrypted version of the
+exam, which the system can unlock later when given the passphrase.
+
+This is a minor action that can be done a couple hours in advance of the exam,
+and which provides an extra layer of security around the exam data.
+
+\end{enumerate}
+
+
+\subsubsection{Receving answers from students}
+
+\subsubsection{Distributing exam results}
+
+\subsection{Expected attacks}
+\label{subsec:req-attacks}
+
+How will attackers try to compromise our system? Why will they fail?
+
+Passive attacks, active attacks, passive-aggressive attacks, you name 'em, we
+got 'em.
+
+\begin{itemize}
+\item Impersonating the exam-server
+\item Man in the middle
+\item Sniffing traffic
+\item Attacks on the platform: SQL injection, CSRF, XSS
+\item ...
+\item Time attack: early exam release due to NTP attacks
+\item Malicious system administrator
+\end{itemize}
+
+\subsection{Limitations}
+\label{subsec:req-limitations}
+
+In what ways is our system not protected? What do we need to trust?
+
+\section{Practical considerations}
+\label{sec:practical}
+
+Is it practically feasible to lock up a few dozen students in a small room for a
+few days, without food or water?
+
+\section{Concrete implementation}
+\label{sec:implementation}
+
+Some implementation details, we should mention the actually used algorithms
+here.
+
+\subsection{Authentication}
+\label{subsec:impl-authentication}
 
 It is definitely possible to design a custom secure authentication solution.
 However, given the setting, we chose for a more realistic option. Most large
@@ -93,15 +170,17 @@ Authentication Server\footnote{\url{http://helpdesk.ugent.be/webhosting/en/cas.p
 (CAS) which is an implementation of the publicly available CAS
 protocol\footnote{\url{http://www.jasig.org/cas/protocol/}}. The basic
 exchange of messages between user, CAS server and application server can be seen
-in figure \ref{fig:login} and is summarized below.
+in figure \ref{fig:login} and is detailed below.
 
 \begin{enumerate}
 \item The user has no active session on the exam server and is redirected
-  to the authentication server (referencing the exam server as source).
-\item The authentication server verifies the identify of the user. In our
-  example this is a basic password authentication scheme (in which hopefully a
-  secure hash of the password is used instead of a plaintext version), but more
-  advanced options (e.g. smart cards, biometrics, ...) are possible as well.
+  to the authentication server (referencing the exam server as source of the
+  authentication request).
+\item The authentication server verifies the identify of the user. In Ghent
+  University's case, this is a basic password authentication scheme (in which
+  hopefully a secure hash of the password is used instead of a plaintext
+  version), but more advanced options (e.g. smart cards, biometrics, ...) are
+  possible as well.
 \item When authentication has succeeded the authentication server generates
   a security token and returns the user to the exam server, carrying this token.
 \item The exam server will then contact the authentication server and confirm
@@ -112,62 +191,54 @@ in figure \ref{fig:login} and is summarized below.
   application session for the authenticated user.
 \end{enumerate}
 
-\subsubsection{Setup and distribution of exams}
-
-The professor needs to be able to distribute an exam to the students. He first
-uploads it to the central server, and selects a number of students. These
-students can download it from there, at some point in time, also specified by
-the professor.
-
-Integrity is important here: we must ensure the students see the same exam that
-the professor posted. Furthermore, only the selected students should be able to
-see the exam, and we have to make sure they cannot view the exam before they are
-allowed to.
+\subsection{Exam distribution}
+\label{subsec:impl-exams}
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.75\textwidth]{images/upload_exam.pdf}
-\caption{Messages exchanged when uploading an exam}
-\label{fig:upload)exam}
-\end{center}
+  \begin{center}
+  \includegraphics[width=0.75\textwidth]{images/upload_exam.pdf}
+  \caption{Messages exchanged when uploading an exam}
+  \label{fig:upload)exam}
+  \end{center}
 \end{figure}
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.75\textwidth]{images/unlock_exam.pdf}
-\caption{Messages exchanged when unlocking an exam}
-\label{fig:unlock-exam}
-\end{center}
+  \begin{center}
+  \includegraphics[width=0.75\textwidth]{images/unlock_exam.pdf}
+  \caption{Messages exchanged when unlocking an exam}
+  \label{fig:unlock-exam}
+  \end{center}
 \end{figure}
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.75\textwidth]{images/download_exam.pdf}
-\caption{Messages exchanged when downloading an exam}
-\label{fig:download-exam}
-\end{center}
+  \begin{center}
+  \includegraphics[width=0.75\textwidth]{images/download_exam.pdf}
+  \caption{Messages exchanged when downloading an exam}
+  \label{fig:download-exam}
+  \end{center}
 \end{figure}
 
-
-\subsubsection{Receving answers from students}
+\subsection{Receving answers from students}
+\label{subsec:impl-answers}
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.75\textwidth]{images/upload_answers.pdf}
-\caption{Messages exchanged when uploading answers}
-\label{fig:upload-answers}
-\end{center}
+  \begin{center}
+  \includegraphics[width=0.75\textwidth]{images/upload_answers.pdf}
+  \caption{Messages exchanged when uploading answers}
+  \label{fig:upload-answers}
+  \end{center}
 \end{figure}
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.75\textwidth]{images/download_answers.pdf}
-\caption{Messages exchanged when downloading answers}
-\label{fig:download-answers}
-\end{center}
+  \begin{center}
+  \includegraphics[width=0.75\textwidth]{images/download_answers.pdf}
+  \caption{Messages exchanged when downloading answers}
+  \label{fig:download-answers}
+  \end{center}
 \end{figure}
 
-\subsubsection{Distributing exam results}
+\subsection{Distributing exam results}
+\label{subsec:impl-results}
 
 \begin{figure}
 \begin{center}
@@ -186,25 +257,8 @@ allowed to.
 \end{figure}
 
 
-\subsection{Expected attacks}
-
-How will attackers try to compromise our system? Why will they fail?
-
-\subsection{Limitations}
-
-In what ways is our system not protected? What do we need to trust?
-
-\section{Practical considerations}
-
-Is it practically feasible to lock up a few dozen students in a small room for a
-few days, without food or water?
-
-\section{Concrete implementation}
-
-Some implementation details, we should mention the actually used algorithms
-here.
-
 \section{Conclusion}
+\label{sec:conclusion}
 
 INSERT +8000 WORDS HERE.
 
