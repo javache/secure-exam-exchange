@@ -8,7 +8,7 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
-\title{Project Information Security \\ Securing an online exam}
+\title{Project Information Security: \\ \emph{Securing an Online Exam}}
 \author{Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt, Toon Willems}
 
 \begin{document}
@@ -19,6 +19,21 @@
 \newpage
 
 \section{Introduction}
+
+Asking students to design an exam system is like asking a woodcutter to describe
+his perfect axe. Exams are an essential part of our education system and each of
+us has pondered the design of an ideal exam system before as it's the target of
+our daily activities.
+
+Sadly the contents of exams and interrogation techniques are not part of this
+assignment, as we might have some good ideas for that as well. Instead we will
+only discuss the technical and practical organisation of exams, and more
+specifically exams that are taken over the public internet.
+
+In this report we discuss the challenges and attack vectors that are inherent
+with such a setup and provide a practical solution for them.
+
+% TODO: hier beneden aanvalsmogenlijkheden goed bespreken
 
 \section{Requirements and Architecture}
 
@@ -36,29 +51,28 @@ We need to assume that every user (students as well as professors) are
 registered on this platform. These accounts can be created when a student
 enrolls in the institute, or when a professor is employed.
 
-The users of the platform should be able to verify that they are indeed
-talking to the official platform instance, and not to some rogue machine posing
-as the platform. This problem is mostly alleviated by using HTTPS and a trusted
+The users of the platform should be able to verify that they are indeed talking
+to the official platform instance, and not to some attacker posing as the
+platform. This problem is mostly alleviated by using HTTPS with a trusted
 cerficate for all communication.
 
-% TODO: misschien wat specifieker zeggen wat HTTPS oplost?
-
-We use an asymmetric encryption mechanism for many features, so we also need to
+We use asymmetric encryption mechanisms for many features, so we also need to
 assume that each user has a keypair assigned. These keypairs can be created at
 the same time as the accounts, with some option to reset a keypair when it has
 been compromised. The platform only requires a user's public key, the private
-key is
+key is to be kept secret by the user.
 
-Ideally these keys are also signed by an official entitity so
-that users can lookup and trust public keys found through a public key exchange.
+Ideally these keys are also signed by an official entitity so that users can
+lookup and trust public keys found through a public key exchanges.
 
 \subsection{Functionality}
 
 \subsubsection{Logging in}
 
-Users (students and professors) should be able to log in to the application.
-This means we need some kind of authentication: it is obvious that a student
-should not be able to pose as a professor.
+Users (students and professors) should be able to log in to the application,
+prove their identity and receive the correct permissions. This means we need
+some kind of authentication: it is obvious that a student should not be able to
+pose as a professor and modify an exam, or submit answers as another student.
 
 It is definitely possible to design a custom secure authentication solution.
 However, given the setting, we chose for a more realistic option. Most large
@@ -67,11 +81,11 @@ use. This way authentication can be organised securely across the whole
 organisation without much effort to application developers.
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=0.9\textwidth]{images/login.pdf}
-\caption{Messages exchanged when logging in}
-\label{fig:login}
-\end{center}
+  \begin{center}
+  \includegraphics[width=0.9\textwidth]{images/login.pdf}
+  \caption{Messages exchanged when logging in}
+  \label{fig:login}
+  \end{center}
 \end{figure}
 
 For our proof-of-concept we integrated with Ghent University's Central

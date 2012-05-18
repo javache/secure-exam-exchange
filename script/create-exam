@@ -57,6 +57,12 @@ fi
 echo "Zipping data into $ZIP..."
 zip "$ZIP" "$FILE" "$FILE_SIG"
 
+# Cleanup
+rm "$FILE_SIG"
+if "$LOCK"; then
+    rm "$FILE"
+fi
+
 # Check if zipping worked
 if test -f "$ZIP"; then
     echo "$ZIP created!"

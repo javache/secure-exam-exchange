@@ -1,4 +1,2 @@
-report.aux
-report.log
-report.pdf
-report.toc
+report.*
+!report.tex
