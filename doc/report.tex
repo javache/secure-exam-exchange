@@ -123,12 +123,27 @@ in the next section.
 % * should be impossible to alter answers
 % * only professor can read them
 % * student needs proof of submission by server
+After completion of an exam, the student can upload his answers to the server
+by viewing an exam on the platform, and choosing the upload answers option.
+After uploading his answers, the student receives a proof of submission from
+the server.
+
+When a student uploads his answers, we have to ensure these answers are not
+altered and that only the professor can read these answers.
+
+Later, the professor can download the answers of his students and revise the
+answers to calculate the results.
 
 \subsubsection{Distributing exam results}
 
 % To discuss:
 % * only student can see his result
 % * student should be able to verify that professor authored resuls
+Finally, when the professor has the results of a student's exam answers, he
+can upload them to the server.
+
+It is important that these results can only be viewed by the student 
+they are intended for, and that they are authored by the professor.
 
 \subsection{Expected attacks}
 \label{subsec:req-attacks}
@@ -202,7 +217,7 @@ in figure \ref{fig:login} and is detailed below.
 \item When authentication has succeeded the authentication server generates
   a security token and returns the user to the exam server, carrying this token.
 \item The exam server will then contact the authentication server and confirm
-  the user's identify by using this token. The use of the token is strictly
+  the user's identity by using this token. The use of the token is strictly
   regulated to prevent abuse: only the requesting service can use it, it is only
   valid during a small timeframe and can only be used once.
 \item Having received this information, the exam server can now start a local
@@ -212,11 +227,26 @@ in figure \ref{fig:login} and is detailed below.
 \subsection{Exam distribution}
 \label{subsec:impl-exams}
 
+When a user wants to upload, unlock or download an exam we assume that he is
+already autenticated with the platform, as explained in
+\autoref{subsec:impl-authentication}.
+
+\begin{enumerate}
+\item Upload: when uploading an exam the professor sends a file, containing
+  the examination and a signature, and encrypted with the private key of the
+  professor (\autoref{fig:upload-exam}).
+\item Unlock: the professor can unlock a locked exam by sending a symmetric key
+  (\autoref{fig:unlock-exam}).
+\item Download: when a student downloads an exam, the server sends the
+  exam and its signature, as well as a proof of interaction with the server
+  and its signature (\autoref{fig:download-exam}).
+\end{enumerate}
+
 \begin{figure}
   \begin{center}
   \includegraphics[width=0.75\textwidth]{images/upload_exam.pdf}
   \caption{Messages exchanged when uploading an exam}
-  \label{fig:upload)exam}
+  \label{fig:upload-exam}
   \end{center}
 \end{figure}
 
@@ -238,6 +268,15 @@ in figure \ref{fig:login} and is detailed below.
 
 \subsection{Receving answers from students}
 \label{subsec:impl-answers}
+
+When a user wants to upload or download an exam answers we assume that he is
+already autenticated with the platform, as explained in
+\autoref{subsec:impl-authentication}.
+
+\begin{enumerate}
+\item Upload: (\autoref{fig:upload-answers}).
+\item Download: (\autoref{fig:download-answers}).
+\end{enumerate}
 
 \begin{figure}
   \begin{center}
