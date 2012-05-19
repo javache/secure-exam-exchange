@@ -8,10 +8,14 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
-\title{Project Information Security: \\ \emph{Securing an Online Exam}}
+\title{Project Information Security: \\ \textbf{Securing an Online Exam}}
 \author{Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt, Toon Willems}
 
 \begin{document}
+
+\makeatletter
+\renewcommand\tableofcontents{\@starttoc{toc}}
+\makeatother
 
 \maketitle
 \tableofcontents
@@ -89,7 +93,7 @@ students should be able to see the exam, and we have to make sure they cannot
 view the exam before they are allowed to.
 
 Another goal of the exam platform is to simplify the disclosure of the exam
-questions for the professor. We provide 2 solutions:
+questions for the professor. We provide 2 solutions for this:
 
 \begin{enumerate}
 
@@ -101,17 +105,30 @@ data.
 \item \textbf{Locked exams}: as storing the exam unencrypted on the server is a
 potential, albeit small, risk (see \autoref{subsec:req-attacks}), we provide the
 professor with the additional option of uploading an encrypted version of the
-exam, which the system can unlock later when given the passphrase.
+exam, which the system can unlock later when a passphrase is given.
 
-This is a minor action that can be done a couple hours in advance of the exam,
-and which provides an extra layer of security around the exam data.
+This is a minor action that can be done a couple of hours in advance of the
+exam, and which provides an extra layer of security around the exam data.
 
 \end{enumerate}
 
+Finally, when students download the exam, they need to receive some form of
+proof of their interaction with the server as part of the audit trail. This
+might not be very important in this phase of the exam procedure but it will be
+in the next section.
 
 \subsubsection{Receving answers from students}
 
+% To discuss:
+% * should be impossible to alter answers
+% * only professor can read them
+% * student needs proof of submission by server
+
 \subsubsection{Distributing exam results}
+
+% To discuss:
+% * only student can see his result
+% * student should be able to verify that professor authored resuls
 
 \subsection{Expected attacks}
 \label{subsec:req-attacks}
@@ -128,13 +145,14 @@ got 'em.
 \item Attacks on the platform: SQL injection, CSRF, XSS
 \item ...
 \item Time attack: early exam release due to NTP attacks
-\item Malicious system administrator
+\item Malicious system administrator: can access server fs, remo
 \end{itemize}
 
 \subsection{Limitations}
 \label{subsec:req-limitations}
 
-In what ways is our system not protected? What do we need to trust?
+In what ways is our system not protected? What do we need to trust for the
+system to work?
 
 \section{Practical considerations}
 \label{sec:practical}
@@ -157,20 +175,20 @@ organisations have an in-house authentication gateway which applications can
 use. This way authentication can be organised securely across the whole
 organisation without much effort to application developers.
 
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=0.9\textwidth]{images/login.pdf}
-  \caption{Messages exchanged when logging in}
-  \label{fig:login}
-  \end{center}
-\end{figure}
-
 For our proof-of-concept we integrated with Ghent University's Central
 Authentication Server\footnote{\url{http://helpdesk.ugent.be/webhosting/en/cas.php}}
 (CAS) which is an implementation of the publicly available CAS
 protocol\footnote{\url{http://www.jasig.org/cas/protocol/}}. The basic
 exchange of messages between user, CAS server and application server can be seen
 in figure \ref{fig:login} and is detailed below.
+
+\begin{figure}[ht]
+  \begin{center}
+  \includegraphics[width=0.9\textwidth]{images/login.pdf}
+  \caption{Messages exchanged when logging in}
+  \label{fig:login}
+  \end{center}
+\end{figure}
 
 \begin{enumerate}
 \item The user has no active session on the exam server and is redirected
