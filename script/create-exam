@@ -29,7 +29,7 @@ ZIP="$FILE.zip"
 # Sign file
 FILE_SIG="$FILE.sig"
 echo "Signing $FILE..."
-gpg --digest-algo SHA256 --detach-sig "$FILE"
+gpg -v --digest-algo SHA512 --detach-sig "$FILE"
 
 # Check if signing worked: both files must exist
 if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then

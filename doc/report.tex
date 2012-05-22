@@ -7,6 +7,7 @@
 \usepackage{parskip}
 
 \setlength{\skip\footins}{2em}
+\interfootnotelinepenalty=10000
 
 \title{Project Information Security: \\ \textbf{Securing an Online Exam}}
 \author{Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt, Toon Willems}
@@ -184,7 +185,8 @@ system to work?
 
 We built a proof-of-concept application using Ruby on
 Rails\footnote{\url{http://rubyonrails.org/}} incorporating the main
-functionality. All communication with this webapplication will occur over HTTPS, as noted earlier.
+functionality. All communication with this webapplication will occur over HTTPS,
+as noted earlier.
 
 A number of operations in the application rely heavily on locally available
 keys, which we did not want to store on the server for security reasons.
@@ -279,8 +281,12 @@ to the platform, as explained in \autoref{subsec:impl-authentication}.
 
 To \textbf{upload an exam}, the professor first needs to create an exam bundle
 by running \texttt{create-exam}. This script takes as its argument the filename
-of the exam and will generate a RSA-SHA256 signature of that file using the
-default GnuPG keypair.
+of the exam and will generate a RSA/SHA-512\footnotemark{} signature of that file
+using the default GnuPG keypair.
+
+\footnotetext{GnuPG uses a SHA-1 hash by default. NIST, however, currently
+recommends using a hash function from the SHA-2 family for all new applications,
+e.g. SHA-512.}
 
 Optionally, the \texttt{create-exam} script can also encrypt the exam file (see
 "Locked exams" in \autoref{subsubsec:req-func-exams}). To do so, it first
