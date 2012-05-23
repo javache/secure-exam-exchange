@@ -26,23 +26,23 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Asking students to design an exam system is like asking a woodcutter to describe
-his perfect axe. Exams are an essential part of our education system and each of
-us has pondered the design of an ideal exam system before as it's the target of
-our daily activities.
+Designing an exam system is a subject that we, as students, can highly relate
+to. Exams are an essential part of our education system and each of us has
+pondered the design of an ideal exam system before as it's the target of our
+daily activities.
 
 Sadly the contents of exams and interrogation techniques are not part of this
 assignment, as we might have some good ideas for that as well. Instead we will
 only discuss the technical and practical organisation of exams, and more
-specifically exams that are taken over the public internet.
+specifically, exams that are taken over the public internet.
 
-In this report we discuss the challenges and attack vectors that are inherent
-with such a setup and provide a practical solution for them.
+In this report, we discuss the challenges and attack vectors that are inherent
+with such a setup, and provide practical solutions.
 
 \section{Requirements and Architecture}
 \label{sec:requirements}
 
-We chose to design a system with a central component, i.e. a server, to which
+We chose to design a system with a central component, i.e., a server, to which
 the different clients can connect. For users, it would appear that this central
 server is their exam platform. This is not true however, as responsibilities and
 software is distributed over all platform participants.
@@ -71,7 +71,7 @@ been compromised. The platform only requires a user's public key, the private
 key is to be kept secret by the user.
 
 Ideally these keys are also signed by an official entitity so that users can
-lookup and trust public keys found through a public key exchanges.
+lookup and trust public keys found using a public key infrastructure.
 
 \subsection{Functionality}
 \label{subsec:req-functionality}
@@ -82,7 +82,7 @@ lookup and trust public keys found through a public key exchanges.
 Users (students and professors) should be able to log in to the application,
 prove their identity and receive the correct permissions. This means we need
 some kind of authentication: it is obvious that a student should not be able to
-pose as a professor and modify an exam, or submit answers as another student.
+pose as a professor and modify an exam, or submit answers for another student.
 
 \subsubsection{Setup and distribution of exams}
 \label{subsubsec:req-func-exams}
@@ -93,10 +93,10 @@ students can download it from the server at some point in time, also specified
 by the professor.
 
 Integrity and non-repudiation are important here: we must ensure the students
-see the same exam that the professor posted, without any alterations, and be
-able to verify that it was authored by the professor. Furthermore, only the
-selected students should be able to see the exam, and we have to make sure they
-cannot view the exam before they are allowed to.
+see the same exam that the professor posted, without any alterations, and that
+they are able to verify that the exam was authored by the professor.
+Furthermore, only the selected students should be able to see the exam, and we
+have to make sure they cannot view the exam before they are allowed to.
 
 Another goal of the exam platform is to simplify the disclosure of the exam
 questions for the professor. We provide 2 solutions for this:
@@ -133,9 +133,9 @@ in the next section.
 
 After completion of an exam, the student needs to return his answers to the
 professor. He does this by uploading them to the central server. We have to
-ensure that hese answers can not be altered on the server (or that modifications
-will be detected) and that they cannot be repudiated. These answers are also
-confidential and should only be readable to the professor.
+ensure that these answers can not be altered on the server (or that
+modifications will be detected) and that they cannot be repudiated. These
+answers are also confidential and should only be readable to the professor.
 
 As a confirmation of his answer submission, the student receives a proof of
 submission from the server. With this receipt, he can prove that he submitted
@@ -247,9 +247,9 @@ well.
 security token and returns the user to the exam server, carrying this token.
 
 \item The exam server will then contact the authentication server and confirm
-the user's identity by using this token. The use of the token is strictly
-regulated to prevent abuse: only the requesting service can use it, it is only
-valid during a small timeframe and can only be used once.
+the user's identity using this token. The use of the token is strictly regulated
+to prevent abuse: only the requesting service can use it, it is only valid
+during a small timeframe and can be used only once.
 
 \item Having received this information, the exam server can now start a local
 application session for the authenticated user.
@@ -307,7 +307,7 @@ When the time has come for the exam to become available, students can
 \textbf{download the exam}. In addition to the exam file, the server will also
 send the associated signature and a proof of the download that has taken place.
 This proof is a text file which is signed with the server's private key and
-which notes the student's identity, the server time, the exam and a SHA5-12 hash
+contains the student's identity, the server time, the exam and a SHA5-12 hash
 of the exam file that was just downloaded.
 
 \subsection{Receving answers from students}
@@ -358,11 +358,11 @@ When receiving this encrypted package, the professor can now decrypt it using
 his private key, verify the signature and finally, correct the answers given in
 the file.
 
-After submission the student will receive a proof of submission, to complete the
-audit trail. Again the proof is a text file, signed with the server's private
-key. This time the text file contains the student's identify, the server time, a
-reference the exam and a SHA-512 hash of the encrypted answers file that was
-just submitted.
+After submission, the student will receive a proof of submission, to complete
+the audit trail. The proof is once again a text file, signed with the server's
+private key.  In this case, the text file contains the student's identity, the
+server time, a reference to the exam and a SHA-512 hash of the encrypted answers
+file that was just submitted.
 
 \subsection{Distributing exam results}
 \label{subsec:impl-results}
