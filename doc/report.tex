@@ -10,7 +10,7 @@
 \interfootnotelinepenalty=10000
 
 \title{Project Information Security: \\ \textbf{Securing an Online Exam}}
-\author{Pieter De Baets, Gilles Jacobs, Jasper Van der Jeugt, Toon Willems}
+\author{Pieter De Baets, Gilles Jacobs,\\ Jasper Van der Jeugt, Toon Willems}
 
 \begin{document}
 
@@ -89,13 +89,14 @@ pose as a professor and modify an exam, or submit answers as another student.
 
 The professor needs to be able to distribute an exam to the students. He first
 uploads it to the central server, and selects a number of students. These
-students can download it from there, at some point in time, also specified by
-the professor.
+students can download it from the server at some point in time, also specified
+by the professor.
 
-Integrity is important here: we must ensure the students see the same exam that
-the professor posted without any alterations. Furthermore, only the selected
-students should be able to see the exam, and we have to make sure they cannot
-view the exam before they are allowed to.
+Integrity and non-repudiation are important here: we must ensure the students
+see the same exam that the professor posted, without any alterations, and be
+able to verify that it was authored by the professor. Furthermore, only the
+selected students should be able to see the exam, and we have to make sure they
+cannot view the exam before they are allowed to.
 
 Another goal of the exam platform is to simplify the disclosure of the exam
 questions for the professor. We provide 2 solutions for this:
@@ -133,8 +134,8 @@ in the next section.
 After completion of an exam, the student needs to return his answers to the
 professor. He does this by uploading them to the central server. We have to
 ensure that hese answers can not be altered on the server (or that modifications
-will be detected). We also opted to make these answers only readable to the
-professor.
+will be detected) and that they cannot be repudiated. These answers are also
+confidential and should only be readable to the professor.
 
 As a confirmation of his answer submission, the student receives a proof of
 submission from the server. With this receipt, he can prove that he submitted
@@ -148,14 +149,16 @@ the given answer file at the current time to the server.
 % * student should be able to verify that professor authored resuls
 
 When the professor has corrected a student's answers, he can upload the
-corresponding exam results to the server, for the student to see.
+corresponding exam results to the server for the student to see.
 
 It is important that these results can only be viewed by the student they are
-intended for, that they are immutable and that they are verifiably authored by
-the professor.
+intended for. They should also be immutable and verifiably authored by the
+professor.
 
 \subsection{Expected attacks}
 \label{subsec:req-attacks}
+
+% TODO!
 
 How will attackers try to compromise our system? Why will they fail?
 
@@ -175,6 +178,8 @@ got 'em.
 \subsection{Limitations}
 \label{subsec:req-limitations}
 
+% TODO!
+
 In what ways is our system not protected? What do we need to trust for the
 system to work?
 
@@ -190,12 +195,14 @@ as noted earlier.
 
 A number of operations in the application rely heavily on locally available
 keys, which we did not want to store on the server for security reasons.
-Therefore we also wrote some small shell scripts which perform the required
-encryption and signing operations, using OpenSSL and GnuPG.
+Therefore we also wrote some small shell scripts which the user can execute on
+his local machine to perform the required encryption and signing operations,
+using OpenSSL and GnuPG.
 
 An advantage of scripting the use of these standard security packages is that
 the used security is very transparent. A paranoid user that does not trust the
-platform can easily read these scripts and perform the required steps himself.
+central server can easily read these scripts and perform the required steps
+himself.
 
 We will now discuss some more implementation details for each subsystem.
 
@@ -300,29 +307,19 @@ When the time has come for the exam to become available, students can
 \textbf{download the exam}. In addition to the exam file, the server will also
 send the associated signature and a proof of the download that has taken place.
 This proof is a text file which is signed with the server's private key and
-which notes the student's identity, the server time, the exam and a SHA512 hash
+which notes the student's identity, the server time, the exam and a SHA5-12 hash
 of the exam file that was just downloaded.
 
 \subsection{Receving answers from students}
 \label{subsec:impl-answers}
 
-Again, we assume that any user of the platform is correctly authenticated before
-executing one of these tasks.
-
-% TODO: explain methods used.
-
-\begin{enumerate}
-\item Upload: (\autoref{fig:upload-answers}).
-\item Download: (\autoref{fig:download-answers}).
-\end{enumerate}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=0.75\textwidth]{images/upload_answers.pdf}
-  \caption{Messages exchanged when uploading answers}
-  \label{fig:upload-answers}
-  \end{center}
-\end{figure}
+%\begin{figure}
+%  \begin{center}
+%  \includegraphics[width=0.75\textwidth]{images/upload_answers.pdf}
+%  \caption{Messages exchanged when uploading answers}
+%  \label{fig:upload-answers}
+%  \end{center}
+%\end{figure}
 
 %\begin{figure}
 %  \begin{center}
@@ -332,18 +329,53 @@ executing one of these tasks.
 %  \end{center}
 %\end{figure}
 
+Again, we assume that any user of the platform is correctly authenticated before
+executing one of these tasks.
+
+To achieve the required security properties we process the student's answers with
+the following process (implemented by the \texttt{create-answers} script).
+
+\begin{enumerate}
+
+\item To guarantee data-integrity and non-repudiation, the student will first
+sign his answers with his private key. Again the RSA/SHA-512 procedure is used,
+as implemented by GnuPG.
+
+\item Another requirement is data confidentiality: only the professor should be
+able to read the file. For this we use the second mode of RSA-operation:
+encrypting a file for a specific person, using his public key.
+
+We encrypt the document symmetrically (using GnuPG) with AES and a random 256
+bit key. This key is then encrypted with the professor's public
+key\footnotemark{} and stored with the encrypted file.
+
+\footnotetext{Additionally we also encrypt the AES key using the student's own
+public key. This way he can decrypt his answers file later as well.}
+
+\end{enumerate}
+
+When receiving this encrypted package, the professor can now decrypt it using
+his private key, verify the signature and finally, correct the answers given in
+the file.
+
+After submission the student will receive a proof of submission, to complete the
+audit trail. Again the proof is a text file, signed with the server's private
+key. This time the text file contains the student's identify, the server time, a
+reference the exam and a SHA-512 hash of the encrypted answers file that was
+just submitted.
+
 \subsection{Distributing exam results}
 \label{subsec:impl-results}
 
 % TODO: explain methods used.
 
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=0.75\textwidth]{images/upload_scores.pdf}
-  \caption{Messages exchanged when uploading scores}
-  \label{fig:upload-scores}
-  \end{center}
-\end{figure}
+%\begin{figure}
+%  \begin{center}
+%  \includegraphics[width=0.75\textwidth]{images/upload_scores.pdf}
+%  \caption{Messages exchanged when uploading scores}
+%  \label{fig:upload-scores}
+%  \end{center}
+%\end{figure}
 
 %\begin{figure}
 %  \begin{center}
@@ -358,6 +390,8 @@ executing one of these tasks.
 
 \begin{itemize}
 
+% TODO!
+
 \item Is it practically feasible to lock up a few dozen students in a small room
 for a few days, without food or water?
 
@@ -369,6 +403,6 @@ are often time-limited and checking signatures would be wasting that time.
 \section{Conclusion}
 \label{sec:conclusion}
 
-INSERT +8000 WORDS HERE.
+% TODO: conclude something
 
 \end{document}
