@@ -150,7 +150,7 @@ When the professor has corrected a student's answers, he can upload the
 corresponding exam results to the server for the student to see.
 
 It is important that these results can only be viewed by the student they are
-intended for. They should also be immutable and verifiable authored by the
+intended for. They should also be immutable and verifiably authored by the
 professor.
 
 \section{Concrete implementation}
@@ -158,10 +158,11 @@ professor.
 
 % Some implementation details, mention the actually used algorithms here.
 
-We built a proof-of-concept application using Ruby on
-Rails\footnote{\url{http://rubyonrails.org/}} incorporating the main
-functionality. All communication with this web application will occur over HTTPS,
-as noted earlier.
+We built a proof-of-concept application using Ruby on Rails\footnotemark{}
+incorporating the main functionality. All communication with this web
+application will occur over HTTPS, as noted earlier.
+
+\footnotetext{\url{http://rubyonrails.org/}}
 
 A number of operations in the application rely heavily on locally available
 keys, which we did not want to store on the server for security reasons.
@@ -219,7 +220,7 @@ security token and returns the user to the exam server, carrying this token.
 \item The exam server will then contact the authentication server and confirm
 the user's identity using this token. The use of the token is strictly regulated
 to prevent abuse: only the requesting service can use it, it is only valid
-during a small time frame and can be used only once.
+during a small time frame and it can only be used once.
 
 \item Having received this information, the exam server can now start a local
 application session for the authenticated user.
@@ -266,7 +267,7 @@ recommends using a hash function from the SHA-2 family for all new applications,
 e.g. SHA-512.}
 
 Optionally, the \texttt{create-exam} script can also encrypt the exam file (see
-"Locked exams" in \autoref{subsubsec:req-func-exams}). To do so, it first
+``Locked exams'' in \autoref{subsubsec:req-func-exams}). To do so, it first
 creates the signature and then encrypts the file using 256-bit AES with cipher
 block chaining for which the user needs to enter an encryption password.
 
@@ -278,7 +279,7 @@ When the time has come for the exam to become available, students can
 \textbf{download the exam}. In addition to the exam file, the server will also
 send the associated signature and a proof of the download that has taken place.
 This proof is a text file which is signed with the server's private key and
-contains the student's identity, the server time, the exam and a SHA5-12 hash
+contains the student's identity, the server time, the exam and a SHA-512 hash
 of the exam file that was just downloaded.
 
 \subsection{Receving answers from students}
@@ -303,8 +304,8 @@ of the exam file that was just downloaded.
 Again, we assume that any user of the platform is correctly authenticated before
 executing one of these tasks.
 
-To achieve the required security properties we process the student's answers with
-the following process (implemented by the \texttt{create-answers} script).
+We achieve the required security properties by processing the student's answers
+the following way (which is implemented by the \texttt{create-answers} script).
 
 \begin{enumerate}
 
@@ -351,7 +352,7 @@ that the results are authored by the professor and haven't been changed since.
 
 Next, for privacy reasons, the signed package is encrypted with the student's
 public key (following the same procedure as in the previous section). Now only
-the student will be able to decrypt the answers.
+the student will be able to decrypt the results.
 
 %\begin{figure}
 %  \begin{center}
@@ -378,12 +379,13 @@ often not the case, which is why all these security measures are necessary.
 
 Even if our platform does not contain a single vulnerability, students can still
 attempt to cheat in other ways. They could set up a communication channel
-outside of our platform (mobile phones, passing notes) and cannot be prevented
+outside of our platform (mobile phones, passing notes) which cannot be prevented
 by our application. For this reason a number of practical measures must be taken
 as well.
 
 If the students take the exam in a supervised room, we can prevent them from
-using any unauthorized communication such as passing notes.
+using any unauthorized communication such as passing notes, the same rules apply
+as during a normal paper exam.
 
 The students need access to a computer in order to use our platform. These
 computers could also be used to communicate with other students using a chat
@@ -396,8 +398,8 @@ In such a setup, it would be advisable to use public computers instead of having
 the students bringing their own laptops: this ensures that the students do not
 bring more information than allowed for the exam and allows for strict control
 of the software used. They do, however, need to bring their private key on a USB
-stick with them. In this case, it would not be a bad idea to encrypt it with a
-passphrase in case it gets stolen.
+flash drive with them. In this case, it would not be a bad idea to encrypt it
+with a passphrase in case it gets stolen.
 
 Another practical aspect is usability. Being required to run a shell script does
 not form an obstruction for computer science students, but it might be a problem
@@ -431,12 +433,12 @@ submission.
 
 Another issue is that the attacker might gain access to the private key of the
 server. This would allow the attacker to generate a proof of submission
-{\em after}\ he has completed his exam. This way he could gain additional time to
-submit his exam. However the student needs to submit something before the
-deadline of the exam. When the server receives his answers, he will immediately
-send an email to the professor with the generated hash. The attacker will still
-be able to update his answer file on the server and generate a correct proof of
-submission, but the earlier sent hash will differ from the hash.
+\emph{after} he has completed his exam which would give him additional time to
+submit his exam. We can counter this by requiring a submission before the exam's
+deadline and by emailing the professor the hash of each submission that is made.
+The attacker will still be able to update his answer file on the server and
+generate a correct proof of submission, but the hash sent earlier will differ
+from the hash on the server and the fraud can be detected.
 
 Some things we consider good practice for securing the server: drop all traffic
 not coming from a few whitelisted locations, log all administrative actions
@@ -452,17 +454,17 @@ client on the server to regularly check and correct the clock.
 
 If an attacker was able to gain access to the server's local network and spoof
 the information from the NTP server, the exams could possibly be released
-prematurely. Luckily NTP has a built-in security mechanism designed to handle
-attacks like these, if configured correctly.
+prematurely. Luckily NTP has a built-in security mechanism, when configured
+correctly, designed to handle attacks like these.
 
 \subsubsection{Attacks on the website}
 
 Because we are using a modern web framework to build this application, the most
-important and common attacks against are web applications are already prevented.
-The Ruby on Rails framework has built-in protection for cross-site request
-forgery (CSRF) and cross-site scripting (XSS). We also use an object relational
-mapper, ActiveRecord, instead of handwritten database queries, which makes it
-very hard to have SQL injection attacks.
+important and common attacks against web applications are already prevented. The
+Ruby on Rails framework has built-in protection for cross-site request forgery
+(CSRF) and cross-site scripting (XSS). We also use an object relational mapper,
+ActiveRecord, instead of handwritten database queries, which makes it very hard
+to have SQL injection attacks.
 
 Session information is often the target of attacks on websites, as the attacker
 can use that information to \emph{steal} a session. By using HTTP- and
@@ -500,13 +502,13 @@ enabling the users to verify the integrity and author of exams, answers and
 results. Encryption of the answers and results also ensures confidentiality
 between the student and his professor. To secure the system against possible
 loss of a student's answers we created a certificate that allows a student, if
-necessary, to resubmit answers without altering them.
+necessary, to prove his submission later on.
 
 Although the presented system is secure on a technical level, it can not prevent
 students from communicating during an exam or using cheat sheets. The conclusion
 we need to make is that even the most secure exam system will fail if
-out-of-band communication is possible: a system is only as strong as its weakest
-link.  More specifically in our case: \emph{PEBKAC}\footnotemark{}.
+out-of-band communication is possible. A system is only as strong as its weakest
+link and more specifically in our case: \emph{PEBKAC}\footnotemark{}.
 
 \footnotetext{Problem Exists Between Keyboard And Chair
 (\url{http://en.wikipedia.org/wiki/PEBKAC}).}
