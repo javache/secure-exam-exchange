@@ -488,5 +488,32 @@ server at that time, exams can be stolen!
 \label{sec:conclusion}
 
 % TODO: conclude something
+During the course of this project we have designed and implemented a platform
+to securely conduct exams and publish the results. This system should not only
+secure the communication to and from the server, but should also ensure
+confidentiality of answers and results between a student and his professor.
+
+During the design phase, we started by securing the communication from and to
+the server by using the HTTPS protocol. We then added public-private key
+encryption enabling the users to verify the intergity and author of exams,
+answers and results. Encryption of the answers and results also ensures
+confidentiality between the student and his professor. To secure the system
+against possible loss of a student's answers we created a certificate that
+allows a student, if necessary, to resubmit answers without altering them.
+
+When implementing the system we chose to use the modern Ruby on Rails
+web-framework with built-in protection against common attacks on websites,
+like SQL injection and cross-site scripting.
+
+Although the presented system is secured on a technical level, it can not
+prevent students from communication during an exam or using cheat sheets.
+Therefore exams should be organised in a supervised room.
+
+We would like to end this report with the words of a wise, mustachioed man
+\footnote{http://www.youtube.com/watch?v=azEvfD4C6ow}
+\begin{quote}
+\textit{Asking students to design an exam system is like asking a miner to
+describe the bagger 288.}
+\end{quote}
 
 \end{document}
