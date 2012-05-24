@@ -136,7 +136,7 @@ answers are also confidential and should only be readable to the professor.
 As a confirmation of his answer submission, the student receives a proof of
 submission from the server. With this receipt, he can prove that he submitted
 the given answer file at the current time to the server, in case of a server
-error or any discussion.
+error or any dispute.
 
 \subsubsection{Distributing exam results}
 \label{subsubsec:req-func-results}
@@ -151,8 +151,6 @@ corresponding exam results to the server for the student to see.
 It is important that these results can only be viewed by the student they are
 intended for. They should also be immutable and verifiably authored by the
 professor.
-
-
 
 \section{Concrete implementation}
 \label{sec:implementation}
@@ -377,15 +375,14 @@ In the case of perfectly trustworthy students, an online exam platform would
 allow them to simply take the exam from their homes. Unfortunately, this is
 often not the case, which is why all these security measures are necessary.
 
-But even if our platform does not contain a single vulnerability, students can
-still attempt to cheat in other ways. They could set up a communication channel
-outside of our platform (mobile phones, passing notes) and this cannot be
-prevented by our application.
-
-This is why we must take a number of practical decisions.
+Even if our platform does not contain a single vulnerability, students can still
+attempt to cheat in other ways. They could set up a communication channel
+outside of our platform (mobile phones, passing notes) and cannot be prevented
+by our application. For this reason a number of practical measures must be taken
+as well.
 
 If the students take the exam in a supervised room, we can prevent them from
-using communication using e.g., passing notes.
+using any unauthorized communication such as passing notes.
 
 The students need access to a computer in order to use our platform. These
 computers could also be used to communicate with other students using a chat
@@ -394,32 +391,30 @@ network setup which only allows the computer to talk to the necessary servers,
 and a supervisor who keeps an eye on the computer screens---we recommend to have
 both.
 
-It such a setup, it would be advisable to use public computers instead of having
+In such a setup, it would be advisable to use public computers instead of having
 the students bringing their own laptops: this ensures that the students do not
-bring more information than allowed for the exam. They do need to bring their
-private key on a USB stick in this case, it would not be a bad idea to encrypt
-it with a passphrase in case it gets stolen.
+bring more information than allowed for the exam and allows for strict control
+of the software used. They do, however, need to bring their private key on a USB
+stick with them. In this case, it would not be a bad idea to encrypt it with a
+passphrase in case it gets stolen.
 
 Another practical aspect is usability. Being required to run a shell script does
 not form an obstruction for computer science students, but it might be a problem
 for students without much technical knowledge or experience. For these students,
 it would be useful to provide a friendly GUI on top of those shell scripts.
-    
+
 \section{Evaluation}
 \subsection{Expected attacks}
 \label{subsec:req-attacks}
 
 \subsubsection{Transport layer attacks}
 
-Several attacks are possible at this level:
-\begin{itemize}
-  \item One could impersonate our server
-  \item Man in the middle
-  \item Replay attack
-  \item Traffic sniffing
-\end{itemize}
+Several attacks are possible at this network level: sniffing traffic,
+impersonating the server, a man-in-the-middle attack or a replay attack.
 
-However, since we are using HTTPS, none of these attacks are possible.
+However, since we are using HTTPS, none of these attacks will be successful.
+
+\subsubsection{Other attacks (to categorize)}
 
 \begin{itemize}
 \item Attacks on the central server
@@ -430,7 +425,6 @@ However, since we are using HTTPS, none of these attacks are possible.
 \item Can the proofs we generate be forged? What's the worst that can happen
 if the server's private key is obtained.
 \end{itemize}
-
 
 \subsection{Limitations}
 \label{subsec:req-limitations}
