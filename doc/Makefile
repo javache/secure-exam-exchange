@@ -1,12 +1,9 @@
-default: distclean report
-
-distclean: clean
-	rm -f report.pdf;
+default: report.pdf
 
 clean:
-	rm -f report.{aux,bbl,blg,glo,gls,ilg,lof,log,lot,out,synctex.gz,toc};
+	rm -f report.{aux,bbl,blg,glo,gls,ilg,lof,log,lot,out,synctex.gz,toc,pdf}
 
-report:
-	pdflatex report;
-	pdflatex report;
-	pdflatex report;
+report.pdf: report.tex
+	pdflatex $<
+	pdflatex $<
+	pdflatex $<
