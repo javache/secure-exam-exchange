@@ -428,11 +428,11 @@ submission that the server originally generated. Together with the original
 answer bundle, a professor can then still accept their answers as a valid
 submission.
 
-Below we enumerate a few things we consider good practices for securing the
-server: Firewall to drop all traffic not coming from a few white-listed
-locations, setting up a fail2ban system which detects ssh login attempts and
-blacklists the originating IP.
-
+Some things we consider good practice for securing the server: drop all traffic
+not coming from a few whitelisted locations, log all administrative actions
+performed on the server for audit purposes, make regular backups (to an equally
+secure server), blacklist users with abnormal traffic patterns (e.g.\ too many
+failed authentication attempts).
 
 \subsubsection{NTP attack}
 
@@ -445,11 +445,6 @@ designed to handle attacks like these.
 % TODO: another issue: attacker gains access to private server key and can sign
 % all kinds of messages
 
-Some things we consider good practice for securing the server: drop all traffic
-not coming from a few whitelisted locations, log all administrative actions
-performed on the server for audit purposes, make regular backups (to an equally
-secure server), blacklist users with abnormal traffic patterns (e.g.\ too many
-failed authentication attempts).
 
 \subsection{Other attacks}
 
