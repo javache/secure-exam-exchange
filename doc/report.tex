@@ -152,54 +152,7 @@ It is important that these results can only be viewed by the student they are
 intended for. They should also be immutable and verifiably authored by the
 professor.
 
-\subsection{Expected attacks}
-\label{subsec:req-attacks}
 
-\subsubsection{Impersonating the exam server}
-
-Somebody could try to impersonate our server, however since we are using HTTPS
-this is impossible.
-
-\subsubsection{Man in the middle}
-
-HTTPS will alleviate any possible MITM attack.
-
-\subsubsection{Replay attack}
-
-HTTPS will alleviate any possible replay attack.
-
-\subsubsection{Sniffing traffic}
-
-HTTPS traffic is encrypted and therefore unreadable for third parties.
-
-\begin{itemize}
-\item Sniffing traffic
-\item Attacks on the central server
-\item Attacks on the website: SQL injection, CSRF, XSS
-\item \dots
-\item Time attack: early exam release due to NTP attacks
-\item Malicious system administrator: can access server fs, remove files
-\item Can the proofs we generate be forged? What's the worst that can happen
-if the server's private key is obtained.
-\end{itemize}
-
-
-
-\subsection{Limitations}
-\label{subsec:req-limitations}
-
-% TODO!
-
-In what ways is our system not protected? What do we need to trust for the
-system to work?
-
-What happens if the server is hacked? If someone gains access to the
-root-account? If the sysadmin turns evil? How can increase the security of the
-server (give some general security ideas: automated banning, audit logs, \dots)
-
-Possible attack vector: the exams will be stored decrypted on the server a
-couple of hours in advance of the exam, if a malicious user has access to the
-server at that time, exams can be stolen!
 
 \section{Concrete implementation}
 \label{sec:implementation}
@@ -420,6 +373,7 @@ the student will be able to decrypt the answers.
 \section{Practical considerations}
 \label{sec:practical}
 
+
 \begin{itemize}
 
 % TODO!
@@ -436,6 +390,49 @@ online or offline.
   time.
 
 \end{itemize}
+
+\section{Evaluation}
+\subsection{Expected attacks}
+\label{subsec:req-attacks}
+
+\subsubsection{Transport layer attacks}
+
+Several attacks are possible at this level:
+\begin{itemize}
+  \item One could impersonate our server
+  \item Man in the middle
+  \item Replay attack
+  \item Traffic sniffing
+\end{itemize}
+
+However, since we are using HTTPS, none of these attacks are possible.
+
+\begin{itemize}
+\item Attacks on the central server
+\item Attacks on the website: SQL injection, CSRF, XSS
+\item \dots
+\item Time attack: early exam release due to NTP attacks
+\item Malicious system administrator: can access server fs, remove files
+\item Can the proofs we generate be forged? What's the worst that can happen
+if the server's private key is obtained.
+\end{itemize}
+
+
+\subsection{Limitations}
+\label{subsec:req-limitations}
+
+% TODO!
+
+In what ways is our system not protected? What do we need to trust for the
+system to work?
+
+What happens if the server is hacked? If someone gains access to the
+root-account? If the sysadmin turns evil? How can increase the security of the
+server (give some general security ideas: automated banning, audit logs, \dots)
+
+Possible attack vector: the exams will be stored decrypted on the server a
+couple of hours in advance of the exam, if a malicious user has access to the
+server at that time, exams can be stolen!
 
 \section{Conclusion}
 \label{sec:conclusion}
