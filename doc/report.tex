@@ -163,13 +163,17 @@ Passive attacks, active attacks, passive-aggressive attacks, you name 'em, we
 got 'em.
 
 \begin{itemize}
-\item Impersonating the exam-server
-\item Man in the middle
+\item Impersonating the exam-server => Nope, HTTPS.
+\item Man in the middle => Nope, HTTPS.
+\item Replay-attacks => Nope, HTTPS.
 \item Sniffing traffic
-\item Attacks on the platform: SQL injection, CSRF, XSS
+\item Attacks on the central server
+\item Attacks on the website: SQL injection, CSRF, XSS
 \item ...
 \item Time attack: early exam release due to NTP attacks
-\item Malicious system administrator: can access server fs, remo
+\item Malicious system administrator: can access server fs, remove files
+\item Can the proofs we generate be forged? What's the worst that can happen
+if the server's private key is obtained.
 \end{itemize}
 
 \subsection{Limitations}
@@ -179,6 +183,14 @@ got 'em.
 
 In what ways is our system not protected? What do we need to trust for the
 system to work?
+
+What happens if the server is hacked? If someone gains access to the
+root-account? If the sysadmin turns evil? How can increase the security of the
+server (give some general security ideas: automated banning, audit logs, ...)
+
+Possible attack vector: the exams will be stored decrypted on the server a
+couple of hours in advance of the exam, if a malicious user has access to the
+server at that time, exams can be stolen!
 
 \section{Concrete implementation}
 \label{sec:implementation}
