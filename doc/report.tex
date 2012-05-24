@@ -429,8 +429,14 @@ submission that the server originally generated. Together with the original
 answer bundle, a professor can then still accept their answers as a valid
 submission.
 
-% TODO: another issue: attacker gains access to private server key and can sign
-% all kinds of messages
+Another issue is that the attacker might gain access to the private key of the
+server. This would allow the attacker to generate a proof of submission
+{\em after}\ he has completed his exam. This way he could gain additional time to
+submit his exam. However the student needs to submit something before the
+deadline of the exam. When the server receives his answers, he will immediately
+send an email to the professor with the generated hash. The attacker will still
+be able to update his answer file on the server and generate a correct proof of
+submission, but the earlier sent hash will differ from the hash.
 
 Some things we consider good practice for securing the server: drop all traffic
 not coming from a few whitelisted locations, log all administrative actions
@@ -456,15 +462,9 @@ type attacks are handled for us. There is built-in protection for Cross-site
 request forgery and Cross-site scripting. Also a modern ORM is provided which
 makes it very hard to have SQL injection attacks.
 
-
-% TODO: another issue: attacker gains access to private server key and can sign
-% all kinds of messages
-
-
 \subsection{Other attacks}
 
 \begin{itemize}
-\item Attacks on the website: SQL injection, CSRF, XSS
 \item Malicious system administrator: can access server fs, remove files
 \item Can the proofs we generate be forged? What's the worst that can happen
 if the server's private key is obtained.
