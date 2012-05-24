@@ -56,17 +56,17 @@ enrolls in the institute, or when a professor is employed.
 The users of the platform should be able to verify that they are indeed talking
 to the official platform instance, and not to some attacker posing as the
 platform. This problem is mostly alleviated by using HTTPS with a trusted
-cerficate for all communication. Next to this, the server also uses a keypair
+certificate for all communication. Next to this, the server also uses a key pair
 for signing messages it generates. We assume that its public key is known to the
 users so it can be used for verification.
 
 We use asymmetric encryption mechanisms for many features, so we also need to
-assume that each user has a keypair assigned. These keypairs can be created at
-the same time as the accounts, with some option to reset a keypair when it has
+assume that each user has a key pair assigned. These key pairs can be created at
+the same time as the accounts, with some option to reset a key pair when it has
 been compromised. The platform only requires a user's public key, the private
 key is to be kept secret by the user.
 
-Ideally these keys are also signed by an official entitity so that users can
+Ideally these keys are also signed by an official entity so that users can
 lookup and trust public keys found using a public key infrastructure.
 
 \subsection{Functionality}
@@ -119,7 +119,7 @@ proof of their interaction with the server as part of the audit trail. This
 might not be very important in this phase of the exam procedure but it will be
 in the next section.
 
-\subsubsection{Receving answers from students}
+\subsubsection{Receiving answers from students}
 \label{subsubsec:req-func-answers}
 
 % To discuss:
@@ -143,13 +143,13 @@ error or any dispute.
 
 % To discuss:
 % * only student can see his result
-% * student should be able to verify that professor authored resuls
+% * student should be able to verify that professor authored results
 
 When the professor has corrected a student's answers, he can upload the
 corresponding exam results to the server for the student to see.
 
 It is important that these results can only be viewed by the student they are
-intended for. They should also be immutable and verifiably authored by the
+intended for. They should also be immutable and verifiable authored by the
 professor.
 
 \section{Concrete implementation}
@@ -159,7 +159,7 @@ professor.
 
 We built a proof-of-concept application using Ruby on
 Rails\footnote{\url{http://rubyonrails.org/}} incorporating the main
-functionality. All communication with this webapplication will occur over HTTPS,
+functionality. All communication with this web application will occur over HTTPS,
 as noted earlier.
 
 A number of operations in the application rely heavily on locally available
@@ -218,7 +218,7 @@ security token and returns the user to the exam server, carrying this token.
 \item The exam server will then contact the authentication server and confirm
 the user's identity using this token. The use of the token is strictly regulated
 to prevent abuse: only the requesting service can use it, it is only valid
-during a small timeframe and can be used only once.
+during a small time frame and can be used only once.
 
 \item Having received this information, the exam server can now start a local
 application session for the authenticated user.
@@ -252,7 +252,7 @@ application session for the authenticated user.
 %  \end{center}
 %\end{figure}
 
-We assume that a user that wants to perform any of tasks is already autenticated
+We assume that a user that wants to perform any of tasks is already authenticated
 to the platform, as explained in \autoref{subsec:impl-authentication}.
 
 To \textbf{upload an exam}, the professor first needs to create an exam bundle
@@ -414,7 +414,17 @@ impersonating the server, a man-in-the-middle attack or a replay attack.
 
 However, since we are using HTTPS, none of these attacks will be successful.
 
-\subsubsection{Other attacks (to categorize)}
+\subsubsection{Attacks on the server}
+
+If someone were to gain access to our server, he would only be able to read the
+exams when they are unencrypted. Because of our public-private key system
+forgery of exams, answers and results would be impossible. The safety of our
+system is not compromised if the professor chooses to encrypt the exam.
+
+Some things we consider so good practice for securing the server: Firewall to
+drop all traffic not coming from a few white-listed locations.
+
+
 
 \begin{itemize}
 \item Attacks on the central server
