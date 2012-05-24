@@ -155,26 +155,35 @@ professor.
 \subsection{Expected attacks}
 \label{subsec:req-attacks}
 
-% TODO!
+\subsubsection{Impersonating the exam server}
 
-How will attackers try to compromise our system? Why will they fail?
+Somebody could try to impersonate our server, however since we are using HTTPS
+this is impossible.
 
-Passive attacks, active attacks, passive-aggressive attacks, you name 'em, we
-got 'em.
+\subsubsection{Man in the middle}
+
+HTTPS will alleviate any possible MITM attack.
+
+\subsubsection{Replay attack}
+
+HTTPS will alleviate any possible replay attack.
+
+\subsubsection{Sniffing traffic}
+
+HTTPS traffic is encrypted and therefore unreadable for third parties.
 
 \begin{itemize}
-\item Impersonating the exam-server => Nope, HTTPS.
-\item Man in the middle => Nope, HTTPS.
-\item Replay-attacks => Nope, HTTPS.
 \item Sniffing traffic
 \item Attacks on the central server
 \item Attacks on the website: SQL injection, CSRF, XSS
-\item ...
+\item \dots
 \item Time attack: early exam release due to NTP attacks
 \item Malicious system administrator: can access server fs, remove files
 \item Can the proofs we generate be forged? What's the worst that can happen
 if the server's private key is obtained.
 \end{itemize}
+
+
 
 \subsection{Limitations}
 \label{subsec:req-limitations}
@@ -186,7 +195,7 @@ system to work?
 
 What happens if the server is hacked? If someone gains access to the
 root-account? If the sysadmin turns evil? How can increase the security of the
-server (give some general security ideas: automated banning, audit logs, ...)
+server (give some general security ideas: automated banning, audit logs, \dots)
 
 Possible attack vector: the exams will be stored decrypted on the server a
 couple of hours in advance of the exam, if a malicious user has access to the
@@ -238,7 +247,7 @@ Server\footnote{\url{http://helpdesk.ugent.be/webhosting/en/cas.php}} (CAS)
 which is an implementation of the publicly available CAS
 protocol\footnote{\url{http://www.jasig.org/cas/protocol/}}. The basic exchange
 of messages between user, CAS server and application server can be seen in
-figure \ref{fig:login} and is detailed below.
+figure~\ref{fig:login} and is detailed below.
 
 \begin{enumerate}
 
@@ -249,7 +258,7 @@ authentication request).
 \item The authentication server verifies the identify of the user. In Ghent
 University's case, this is a basic password authentication scheme (in which
 hopefully a secure hash of the password is used instead of a plaintext version),
-but more advanced options (e.g. smart cards, biometrics, ...) are possible as
+but more advanced options (e.g.\ smart cards, biometrics, \dots) are possible as
 well.
 
 \item When authentication has succeeded the authentication server generates a
@@ -310,7 +319,8 @@ creates the signature and then encrypts the file using 256-bit AES with cipher
 block chaining for which the user needs to enter an encryption password.
 
 To \textbf{unlock an exam}, the professor submits the passphrase he used when
-creating the locked copy, to the server. The server will decrypt the file using the aforementioned AES algorithm and store the unlocked copy.
+creating the locked copy, to the server. The server will decrypt the file using
+the aforementioned AES algorithm and store the unlocked copy.
 
 When the time has come for the exam to become available, students can
 \textbf{download the exam}. In addition to the exam file, the server will also
@@ -420,8 +430,10 @@ for a few days, without food or water?
 \item Supervision is always required to prevent students working together,
 online or offline.
 
-\item For the security precautions to really be useful, a student would need to have the time to verify the signatures on all files and receipts. Exams however
-are often time-limited and checking signatures would be wasting that time.
+\item For the security precautions to really be useful, a student would need to
+  have the time to verify the signatures on all files and receipts. Exams
+  however are often time-limited and checking signatures would be wasting that
+  time.
 
 \end{itemize}
 
