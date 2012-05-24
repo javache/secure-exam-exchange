@@ -465,9 +465,9 @@ mapper, ActiveRecord, instead of handwritten database queries, which makes it
 very hard to have SQL injection attacks.
 
 Session information is often the target of attacks on websites, as the attacker
-can use that information to \emph{steal} a session. By using HTTP- and HTTPS-
-only cookies to store the session information client-side we eliminate a large
-number of attack vectors.
+can use that information to \emph{steal} a session. By using HTTP- and
+HTTPS-only cookies to store the session information client-side we eliminate a
+large number of attack vectors.
 
 \subsection{Limitations}
 \label{subsec:req-limitations}
@@ -475,10 +475,10 @@ number of attack vectors.
 \subsubsection{Trust}
 
 There are a number of trust issues with our system. We have to trust the honesty
-of the Professor and the sysadmin. Both could abuse their power, rendering the
-security of our system pointless.
+of the professor and the professionality of the system administrator. Both could
+abuse their power, rendering the security of our system pointless.
 
-\subsubsection{Time based encryption}
+\subsubsection{Time-based exam release}
 
 Unfortunately we weren't able to devise a system where the exams can be
 safely decrypted without intervention from the professor. We could come up with
@@ -487,27 +487,25 @@ a system, but this required us to trust the server which we wanted to avoid.
 \section{Conclusion}
 \label{sec:conclusion}
 
-% TODO: conclude something
 During the course of this project we have designed and implemented a platform
 to securely conduct exams and publish the results. This system should not only
 secure the communication to and from the server, but should also ensure
 confidentiality of answers and results between a student and his professor.
 
-During the design phase, we started by securing the communication from and to
-the server by using the HTTPS protocol. We then added public-private key
-encryption enabling the users to verify the integrity and author of exams,
-answers and results. Encryption of the answers and results also ensures
-confidentiality between the student and his professor. To secure the system
-against possible loss of a student's answers we created a certificate that
-allows a student, if necessary, to resubmit answers without altering them.
+We started the design phase by securing the communication from and to the server
+by using the HTTPS protocol. We then added public-private key encryption
+enabling the users to verify the integrity and author of exams, answers and
+results. Encryption of the answers and results also ensures confidentiality
+between the student and his professor. To secure the system against possible
+loss of a student's answers we created a certificate that allows a student, if
+necessary, to resubmit answers without altering them.
 
-When implementing the system we chose to use the modern Ruby on Rails
-web-framework with built-in protection against common attacks on websites,
-like SQL injection and cross-site scripting.
+Although the presented system is secure on a technical level, it can not prevent
+students from communicating during an exam or using cheat sheets. The conclusion
+we need to make is that even the most secure exam system will fail if
+out-of-band communication is possible: a system is only as strong as its weakest link.
+More specifically in our case: \emph{PEBKAC}\footnotemark{}.
 
-Although the presented system is secured on a technical level, it can not
-prevent students from communication during an exam or using cheat sheets.
-Showing how all aspects of a system influence how secure it is.
-
+\footnotetext{\url{http://en.wikipedia.org/wiki/PEBKAC}}
 
 \end{document}
