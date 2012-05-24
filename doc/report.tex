@@ -414,22 +414,34 @@ impersonating the server, a man-in-the-middle attack or a replay attack.
 
 However, since we are using HTTPS, none of these attacks will be successful.
 
-\subsubsection{Attacks on the server}
+\subsubsection{Translate: "aanvallen op de administratieve interface van de
+server"}
 
 If someone were to gain access to our server, he would only be able to read the
 exams when they are unencrypted. Because of our public-private key system
 forgery of exams, answers and results would be impossible. The safety of our
 system is not compromised if the professor chooses to encrypt the exam.
 
-Some things we consider so good practice for securing the server: Firewall to
-drop all traffic not coming from a few white-listed locations.
+A more troubling issue is that an attacker who gains access, can possibly delete
+data on to the server, without this being immediately noticeable. Our students
+are protected against such dataloss however as they have the proofs of
+submission that the server originally generated. Together with the original
+answer bundle, a professor can then still accept their answers as a valid
+submission.
 
+% TODO: another issue: attacker gains access to private server key and can sign
+% all kinds of messages
 
+Some things we consider good practice for securing the server: drop all traffic
+not coming from a few whitelisted locations, log all administrative actions
+performed on the server for audit purposes, make regular backups (to an equally
+secure server), blacklist users with abnormal traffic patterns (e.g. too many
+failed authentication attempts).
+
+\subsection{Other attacks}
 
 \begin{itemize}
-\item Attacks on the central server
 \item Attacks on the website: SQL injection, CSRF, XSS
-\item \dots
 \item Time attack: early exam release due to NTP attacks
 \item Malicious system administrator: can access server fs, remove files
 \item Can the proofs we generate be forged? What's the worst that can happen
@@ -445,8 +457,7 @@ In what ways is our system not protected? What do we need to trust for the
 system to work?
 
 What happens if the server is hacked? If someone gains access to the
-root-account? If the sysadmin turns evil? How can increase the security of the
-server (give some general security ideas: automated banning, audit logs, \dots)
+root-account? If the sysadmin turns evil?
 
 Possible attack vector: the exams will be stored decrypted on the server a
 couple of hours in advance of the exam, if a malicious user has access to the
