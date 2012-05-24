@@ -14,10 +14,6 @@
 
 \begin{document}
 
-\makeatletter
-\renewcommand\tableofcontents{\@starttoc{toc}}
-\makeatother
-
 \maketitle
 \tableofcontents
 
@@ -139,7 +135,8 @@ answers are also confidential and should only be readable to the professor.
 
 As a confirmation of his answer submission, the student receives a proof of
 submission from the server. With this receipt, he can prove that he submitted
-the given answer file at the current time to the server.
+the given answer file at the current time to the server, in case of a server
+error or any discussion.
 
 \subsubsection{Distributing exam results}
 \label{subsubsec:req-func-results}
@@ -350,7 +347,7 @@ bit key. This key is then encrypted with the professor's public
 key\footnotemark{} and stored with the encrypted file.
 
 \footnotetext{Additionally we also encrypt the AES key using the student's own
-public key. This way he can decrypt his answers file later as well.}
+public key. This way he can decrypt his answers file himself as well.}
 
 \end{enumerate}
 
@@ -367,7 +364,20 @@ file that was just submitted.
 \subsection{Distributing exam results}
 \label{subsec:impl-results}
 
-% TODO: explain methods used.
+To distribute the results obtained by the students, we use the same mechanism as
+in \autoref{subsec:impl-answers}, but in the other direction. The mechanism is
+implemented in the \texttt{create-results} script.
+
+% The functionality of create-results would be exactly the same as
+% create-answers, should we just copy them for clarity?
+
+For each student, the professor will sign the document containing his results
+with his private key (using the RSA/SHA-512 algorithm in GnuPG). This guarantees
+that the results are authored by the professor and haven't been changed since.
+
+Next, for privacy reasons, the signed package is encrypted with the student's
+public key (following the same procedure as in the previous section). Now only
+the student will be able to decrypt the answers.
 
 %\begin{figure}
 %  \begin{center}
@@ -394,6 +404,9 @@ file that was just submitted.
 
 \item Is it practically feasible to lock up a few dozen students in a small room
 for a few days, without food or water?
+
+\item Supervision is always required to prevent students working together,
+online or offline.
 
 \item For the security precautions to really be useful, a student would need to have the time to verify the signatures on all files and receipts. Exams however
 are often time-limited and checking signatures would be wasting that time.
