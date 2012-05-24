@@ -414,23 +414,30 @@ impersonating the server, a man-in-the-middle attack or a replay attack.
 
 However, since we are using HTTPS, none of these attacks will be successful.
 
-\subsubsection{Attacks on the server}
+\subsubsection{Attacks on the administrative interface of the server}
 
 If someone were to gain access to our server, he would only be able to read the
 exams when they are unencrypted. Because of our public-private key system
 forgery of exams, answers and results would be impossible. The safety of our
 system is not compromised if the professor chooses to encrypt the exam.
 
-Some things we consider so good practice for securing the server: Firewall to
-drop all traffic not coming from a few white-listed locations.
+Below we enumerate a few things we consider good practices for securing the
+server: Firewall to drop all traffic not coming from a few white-listed
+locations, setting up a fail2ban system which detects ssh login attempts and
+blacklists the originating IP.
+
+\subsubsection{NTP attack}
+
+If someone were able to set the time of the server, exams would be available to
+students earlier than wanted. Luckily NTP has a built-in security mechanism
+designed to handle attacks like these.
+
+\subsubsection{Attacks on the website}
 
 
 
 \begin{itemize}
-\item Attacks on the central server
 \item Attacks on the website: SQL injection, CSRF, XSS
-\item \dots
-\item Time attack: early exam release due to NTP attacks
 \item Malicious system administrator: can access server fs, remove files
 \item Can the proofs we generate be forged? What's the worst that can happen
 if the server's private key is obtained.
