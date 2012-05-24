@@ -373,24 +373,32 @@ the student will be able to decrypt the answers.
 \section{Practical considerations}
 \label{sec:practical}
 
+In the case of perfectly trustworthy students, an online exam platform would
+allow them to simply take the exam from their homes. Unfortunately, this is
+often not the case, which is why all these security measures are necessary.
 
-\begin{itemize}
+But even if our platform does not contain a single vulnerability, students can
+still attempt to cheat in other ways. They could set up a communication channel
+outside of our platform (mobile phones, passing notes) and this cannot be
+prevented by our application.
 
-% TODO!
+This is why we must take a number of practical decisions.
 
-\item Is it practically feasible to lock up a few dozen students in a small room
-for a few days, without food or water?
+If the students take the exam in a supervised room, we can prevent them from
+using communication using e.g., passing notes.
 
-\item Supervision is always required to prevent students working together,
-online or offline.
+The students need access to a computer in order to use our platform. These
+computers could also be used to communicate with other students using a chat
+application or email. This can be prevented in two ways: a strict (whitelisted)
+network setup which only allows the computer to talk to the necessary servers,
+and a supervisor who keeps an eye on the computer screens--we recommend to have
+both.
 
-\item For the security precautions to really be useful, a student would need to
-  have the time to verify the signatures on all files and receipts. Exams
-  however are often time-limited and checking signatures would be wasting that
-  time.
-
-\end{itemize}
-
+Another practical aspect is usability. Being required to run a shell script does
+not form an obstruction for computer science students, but it might be a problem
+for students without much technical knowledge or experience. For these students,
+it would be useful to provide a friendly GUI on top of those shell scripts.
+    
 \section{Evaluation}
 \subsection{Expected attacks}
 \label{subsec:req-attacks}
