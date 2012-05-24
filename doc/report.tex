@@ -14,6 +14,10 @@
 
 \begin{document}
 
+\makeatletter
+\renewcommand\tableofcontents{\@starttoc{toc}}
+\makeatother
+
 \maketitle
 \tableofcontents
 
@@ -436,9 +440,14 @@ failed authentication attempts).
 
 \subsubsection{NTP attack}
 
-If someone were able to set the time of the server, exams would be available to
-students earlier than wanted. Luckily NTP has a built-in security mechanism
-designed to handle attacks like these.
+To suport the timed exam release, it is critical for the server to always have a
+correct time reading. Common practice is to setup a Network Time Protocol (NTP)
+client on the server to regularly check and correct the clock.
+
+If an attacker was able to gain access to the server's local network and spoof
+the information from the NTP server, the exams could possibly be released
+prematurely. Luckily NTP has a built-in security mechanism designed to handle
+attacks like these, if configured correctly.
 
 \subsubsection{Attacks on the website}
 
