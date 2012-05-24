@@ -415,7 +415,7 @@ impersonating the server, a man-in-the-middle attack or a replay attack.
 
 However, since we are using HTTPS, none of these attacks will be successful.
 
-\subsubsection{Attacks on the administrative interface of the server}
+\subsubsection{Attacks on the server's administrative interface}
 
 If someone were to gain access to our server, he would only be able to read the
 exams when they are unencrypted. Because of our public-private key system
@@ -457,10 +457,17 @@ attacks like these, if configured correctly.
 
 \subsubsection{Attacks on the website}
 
-Because we are using a modern web framework to build this application all modern
-type attacks are handled for us. There is built-in protection for Cross-site
-request forgery and Cross-site scripting. Also a modern ORM is provided which
-makes it very hard to have SQL injection attacks.
+Because we are using a modern web framework to build this application, the most
+important and common attacks against are web applications are already prevented.
+The Ruby on Rails framework has built-in protection for cross-site request
+forgery (CSRF) and cross-site scripting (XSS). We also use an object relational
+mapper, ActiveRecord, instead of handwritten database queries, which makes it
+very hard to have SQL injection attacks.
+
+Session information is often the target of attacks on websites, as the attacker
+can use that information to \emph{steal} a session. By using HTTP- and HTTPS-
+only cookies to store the session information client-side we eliminate a large
+number of attack vectors.
 
 \subsection{Limitations}
 \label{subsec:req-limitations}
