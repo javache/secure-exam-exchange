@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Check arguments
+if [[ $# -lt 2 ]]; then
+    echo "Usage: $0 student@uni.edu file"
+    exit 1
+fi
+
+# File to submit, zip to create
+RECIPIENT="$1"
+FILE="$2"
+ZIP="$FILE.zip"
+
+# Sign file
+# (verify later using gpg -v --verify $FILE_SIG $FILE)
+FILE_SIG="$FILE.sig"
+echo "Signing $FILE..."
+gpg -v --digest-algo SHA512 --detach-sig --armor "$FILE"
+
+# Check if signing worked: both files must exist
+if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then
+    echo "Signing $FILE failed, aborting!"
+    exit 1
+fi
+
+# Encrypt file
+# (decrypt later using gpg -v -d $FILE_ENC)
+FILE_ENC="$FILE.asc"
+echo "Encrypting $FILE..."
+USER=$(gpg --list-secret-keys | grep -m 1 -o '<.*@.*>$')
+gpg -v --out "$FILE_ENC" --cipher-algo AES256 --encrypt \
+    --recipient "<$RECIPIENT>" --recipient "$USER" "$FILE"
+
+# Check if locking worked
+if test ! -f "$FILE_ENC"; then
+    echo "Locking $FILE failed, aborting!"
+    exit 1
+fi
+
+# Zip necessary files
+echo "Zipping data into $ZIP..."
+zip "$ZIP" "$FILE_ENC" "$FILE_SIG"
+
+# Cleanup
+rm "$FILE_SIG"
+rm "$FILE_ENC"
+
+# Check if zipping worked
+if test -f "$ZIP"; then
+    echo "$ZIP created!"
+else
+    echo "Could not create answers package!"
+    exit 1
+fi
