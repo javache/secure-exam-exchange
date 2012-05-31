@@ -21,11 +21,16 @@ class ExamsController < ApplicationController
     @exam = Exam.new
   end
 
-  def add_users
-      @exam = Exam.find params[:id]
+  def edit_users
+    @exam = Exam.find params[:id]
     if request.put?
-      users = User.find params[:user].keys.map(&:to_i)
-      @exam.add_users users
+      if params[:user]
+        users = User.find params[:user].keys.map(&:to_i)
+      else
+        users = []
+      end
+
+      @exam.edit_users(users)
       redirect_to exam_path(@exam)
     else
       @users = User.where "id != :id", id: current_user.id

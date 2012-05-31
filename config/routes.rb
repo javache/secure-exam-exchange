@@ -9,7 +9,7 @@ SecureExamExchange::Application.routes.draw do
 
   resources :exams do
     member do
-      match "add_users"
+      match "edit_users"
       get "upload_answers"
       get "download_answers"
       get "upload_results"

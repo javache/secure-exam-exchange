@@ -2,13 +2,17 @@
 <%= link_to "Exam data",  @exam.data.url %> <br />
 
 <p>Participants:</p>
-<ul>
-<% @exam.participations.each do |p| %>
-  <li><%= p.user.name %></li>
+<% if @exam.participations.empty? %>
+  <p>No participants yet, please add some!</p>
+<% else %>
+  <ul>
+    <% @exam.participations.each do |p| %>
+      <li><%= p.user.name %></li>
+    <% end %>
+  </ul>
 <% end %>
-</ul>
 
-<%= link_to "Add participants", add_users_exam_path(@exam) %> <br />
+<%= link_to "Edit participants", edit_users_exam_path(@exam) %> <br />
 
 <p>Locked: <%= @exam.locked? %></p>
 

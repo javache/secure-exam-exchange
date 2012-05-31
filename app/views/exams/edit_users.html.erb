@@ -1,8 +1,8 @@
-<%= form_for @exam, url: add_users_exam_path(@exam) do |f| %>
+<%= form_for @exam, url: edit_users_exam_path(@exam) do |f| %>
   <p><%= f.label :participants %></p>
   <ul class="checkbox-list">
     <% @users.each do |u| %>
-      <li><%= check_box_tag "user[#{u.id}]", true, true %>
+      <li><%= check_box_tag "user[#{u.id}]", true, @exam.participant?(u) %>
       <%= label_tag "user[#{u.id}]", u.name %></li>
     <% end %>
   </ul>

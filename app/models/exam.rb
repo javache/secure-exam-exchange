@@ -14,6 +14,26 @@ class Exam < ActiveRecord::Base
     users.map { |u| participations.find_or_create_by_user_id(u.id) }
   end
 
+  def edit_users(updated_users)
+    # Find the current users
+    users = participations.collect(&:user)
+
+    # Remove the users which are not in the list anymore
+    (users - updated_users).each do |user|
+      participations.find_by_user_id(user.id).delete
+    end
+
+    # Add the users which weren't in the list yet
+    (updated_users - users).each do |user|
+      participations.find_or_create_by_user_id(user.id)
+    end
+  end
+
+  # Check if a certain user is a participant of this exam
+  def participant?(user)
+    participations.any? { |p| p.user == user }
+  end
+
   # An exam is in progress if if start_time < Time.now < end_time
   # and it is not locked
   def in_progress?
