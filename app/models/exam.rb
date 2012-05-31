@@ -9,11 +9,6 @@ class Exam < ActiveRecord::Base
   validates_attachment_presence :data
   validate :sane_exam_zip
 
-  # Add the users as participants
-  def add_users(users)
-    users.map { |u| participations.find_or_create_by_user_id(u.id) }
-  end
-
   def edit_users(updated_users)
     # Find the current users
     users = participations.collect(&:user)
