@@ -61,14 +61,14 @@ class ExamsController < ApplicationController
   def can_edit_exam
     @exam = Exam.find params[:id]
     unless @exam.can_edit? current_user
-      raise "You are not allowed to edit this exam"
+      head :status => 403
     end
   end
 
   def can_view_exam
     @exam = Exam.find params[:id]
     unless @exam.participant? current_user or @exam.can_edit? current_user
-      raise "You are not allowed to view this exam"
+      head :status => 403
     end
   end
 end
