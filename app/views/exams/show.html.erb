@@ -12,7 +12,7 @@
   </ul>
 <% end %>
 
-<% if exam_owner? %>
+<% if can_edit_exam? %>
   <%= link_to "Edit participants", edit_users_exam_path(@exam) %><br>
 <% end %>
 
@@ -23,7 +23,7 @@
   End: <%= @exam.end_time %>
 </p>
 
-<% if exam_owner? %>
+<% if can_edit_exam? %>
   <%= link_to "Download answers", download_answers_exam_path(@exam) %>
 <% else %>
   <%= link_to "Upload answers", upload_answers_exam_path(@exam) %>

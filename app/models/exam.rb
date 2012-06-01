@@ -24,8 +24,8 @@ class Exam < ActiveRecord::Base
     end
   end
 
-  # Check if a certain user owns this exam
-  def owner?(owner)
+  # Check if a certain user can edit this exam
+  def can_edit?(owner)
     user == owner
   end
 

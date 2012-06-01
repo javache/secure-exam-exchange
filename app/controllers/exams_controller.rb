@@ -59,7 +59,7 @@ class ExamsController < ApplicationController
 
   def can_edit_exam
     @exam = Exam.find params[:id]
-    unless @exam.owner? current_user
+    unless @exam.can_edit? current_user
       raise "You are not allowed to edit this exam"
     end
   end

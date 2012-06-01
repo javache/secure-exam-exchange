@@ -1,5 +1,5 @@
 module ExamsHelper
-  def exam_owner?
-    @exam.owner? current_user
+  def can_edit_exam?
+    @exam.can_edit? current_user
   end
 end
