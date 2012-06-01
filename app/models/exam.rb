@@ -24,6 +24,11 @@ class Exam < ActiveRecord::Base
     end
   end
 
+  # Check if a certain user owns this exam
+  def owner?(owner)
+    user == owner
+  end
+
   # Check if a certain user is a participant of this exam
   def participant?(user)
     participations.any? { |p| p.user == user }

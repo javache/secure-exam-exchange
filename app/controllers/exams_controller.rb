@@ -1,5 +1,6 @@
 class ExamsController < ApplicationController
   respond_to :html
+  before_filter :can_edit_exam, :except => [:index, :show, :new, :create]
 
   def index
     @exams = current_user.exams
@@ -22,7 +23,6 @@ class ExamsController < ApplicationController
   end
 
   def edit_users
-    @exam = Exam.find params[:id]
     if request.put?
       if params[:user]
         users = User.find params[:user].keys.map(&:to_i)
@@ -38,27 +38,29 @@ class ExamsController < ApplicationController
   end
 
   def upload_answers
-    exam = Exam.find(params[:id])
-    @participation = exam.participations.where(:user_id => current_user.id).first
+    @participation = @exam.participations.where(:user_id => current_user.id).first
 
     respond_with @participation
   end
 
   def download_answers
-    exam = Exam.find(params[:id])
-    if current_user != exam.user
-      raise "you're not allowed to download answers for exams you haven't created"
-    end
-
-    @participations = exam.participations.select { |p| p.answers.present? }
+    @participations = @exam.participations.select { |p| p.answers.present? }
 
     # TODO: maybe generate one big zip with all the current answers in?
     # See fk-enrolment
   end
 
   def upload_results
-    exam = Exam.find(params[:id])
+    @exam = Exam.find(params[:id])
     @participations = exam.participations
+  end
 
+  private
+
+  def can_edit_exam
+    @exam = Exam.find params[:id]
+    unless @exam.owner? current_user
+      raise "You are not allowed to edit this exam"
+    end
   end
 end

@@ -1,5 +1,5 @@
 <h2><%= @exam.name %></h2>
-<%= link_to "Exam data",  @exam.data.url %> <br />
+<%= link_to "Exam data",  @exam.data.url %> <br>
 
 <p>Participants:</p>
 <% if @exam.participations.empty? %>
@@ -12,14 +12,19 @@
   </ul>
 <% end %>
 
-<%= link_to "Edit participants", edit_users_exam_path(@exam) %> <br />
+<% if exam_owner? %>
+  <%= link_to "Edit participants", edit_users_exam_path(@exam) %><br>
+<% end %>
 
 <p>Locked: <%= @exam.locked? %></p>
 
 <p>
-  Start: <%= @exam.start_time %> <br />
+  Start: <%= @exam.start_time %> <br>
   End: <%= @exam.end_time %>
 </p>
 
-<%= link_to "Upload answers", upload_answers_exam_path(@exam) unless current_user_created? %>
-<%= link_to "Download answers", download_answers_exam_path(@exam) if current_user_created? %>
+<% if exam_owner? %>
+  <%= link_to "Download answers", download_answers_exam_path(@exam) %>
+<% else %>
+  <%= link_to "Upload answers", upload_answers_exam_path(@exam) %>
+<% end %>
