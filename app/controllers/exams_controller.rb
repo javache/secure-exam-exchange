@@ -1,6 +1,7 @@
 class ExamsController < ApplicationController
   respond_to :html
   before_filter :can_edit_exam, :except => [:index, :show, :new, :create]
+  before_filter :can_view_exam, :only => [:show]
 
   def index
     @exams = current_user.exams
@@ -61,6 +62,13 @@ class ExamsController < ApplicationController
     @exam = Exam.find params[:id]
     unless @exam.can_edit? current_user
       raise "You are not allowed to edit this exam"
+    end
+  end
+
+  def can_view_exam
+    @exam = Exam.find params[:id]
+    unless @exam.participant? current_user or @exam.can_edit? current_user
+      raise "You are not allowed to view this exam"
     end
   end
 end
