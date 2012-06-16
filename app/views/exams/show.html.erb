@@ -3,11 +3,11 @@
 <dl>
   <dt>Start</dt><dd><%= @exam.start_time %></dd>
   <dt>End</dt><dd><%= @exam.end_time %></dd>
-  <dt>Participants
-    <% if can_edit_exam? %>
-      (<%= link_to "edit", edit_users_exam_path(@exam) %>)
-    <% end %>
-  </dt><dd>
+  <% if can_edit_exam? %>
+  <dt>Review exam package</dt>
+  <dd>Download <%= link_to @exam.data_file_name,  @exam.data.url %></dd>
+  <dt>Participants (<%= link_to "edit", edit_users_exam_path(@exam) %>)</dt>
+  <dd>
   <% if @exam.participations.empty? %>
     No participants yet, please add some!
   <% else %>
@@ -16,8 +16,9 @@
         <li><%= p.user.name %></li>
       <% end %>
     </ul>
-  <% end %>
   </dd>
+  <% end %>
+  <% end %>
 </dl>
 
 <% if @exam.locked? && can_edit_exam? %>
@@ -33,13 +34,14 @@
       <%= f.submit "Unlock" %>
     </p>
   <% end %>
-<% end %>
 </div>
+<% end %>
 
 <p><strong>Actions:</strong>
 <% if can_edit_exam? %>
-  <%= link_to "Download answers", download_answers_exam_path(@exam) %>
+  <%= link_to "download answers", download_answers_exam_path(@exam) %> &mdash;
+  <%= link_to "upload results", download_answers_exam_path(@exam) %>
 <% else %>
-  <%= link_to "Upload answers", upload_answers_exam_path(@exam) %>
+  <%= link_to "upload answers", upload_answers_exam_path(@exam) %>
 <% end %>
 </p>

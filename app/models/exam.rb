@@ -88,7 +88,9 @@ class Exam < ActiveRecord::Base
 
     # Create a temporary file and write the encrypted file there
     enc_file_path = File.join(Dir.tmpdir, enc_file_name)
-    File.binwrite(enc_file_path, Zippy.read(data.path, enc_file_name))
+    File.open(enc_file_path, 'w+:ASCII-8BIT') do |f|
+      f.write(Zippy.read(data.path, enc_file_name))
+    end
     puts "Wrote #{enc_file_path}"
 
     # Create a temporary file for the unencrypted file
