@@ -10,7 +10,7 @@ capybara-*.html
 /tmp/*
 /db/*.sqlite3
 /public/system/*
-/pbulic/data/*
+/public/data/*
 /coverage/
 /spec/tmp/*
 **.orig
