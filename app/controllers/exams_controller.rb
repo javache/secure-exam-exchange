@@ -38,6 +38,15 @@ class ExamsController < ApplicationController
     end
   end
 
+  def unlock
+    if request.put?
+      @exam.unlock(params[:password])
+      if @exam.errors.empty? then
+        redirect_to exam_path(@exam)
+      end
+    end
+  end
+
   def upload_answers
     @participation = @exam.participations.where(:user_id => current_user.id).first
 

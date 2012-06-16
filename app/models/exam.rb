@@ -1,3 +1,7 @@
+require 'fileutils'
+require 'open3'
+require 'tmpdir'
+
 class Exam < ActiveRecord::Base
   has_many :participations
   belongs_to :user
@@ -60,8 +64,7 @@ class Exam < ActiveRecord::Base
 
     # Check the contents of the zip file in path.
     files = Zippy.list(path)
-    file_name = File.basename(data_file_name)
-    file_name = file_name.chomp(File.extname(file_name))
+    file_name = exam_base_name
 
     if !files.include?(file_name + ".asc")
       errors.add(:data, "needs #{file_name}.asc")
@@ -70,5 +73,51 @@ class Exam < ActiveRecord::Base
     if !files.include?(file_name) and !files.include?(file_name + ".enc") then
       errors.add(:data, "needs #{file_name} or #{file_name}.enc")
     end
+  end
+
+  # Unlock an exam with a password
+  def unlock(password)
+    # Find the encrypted file
+    file_name = exam_base_name
+    enc_file_name = file_name + ".enc"
+    if !Zippy.list(data.path).include? enc_file_name then
+      errors.add(:data, "is not locked")
+      return
+    end
+
+    # Create a temporary file and write the encrypted file there
+    enc_file_path = File.join(Dir.tmpdir, enc_file_name)
+    File.binwrite(enc_file_path, Zippy.read(data.path, enc_file_name))
+    puts "Wrote #{enc_file_path}"
+
+    # Create a temporary file for the unencrypted file
+    file_path = File.join(Dir.tmpdir, file_name)
+    stdin, stdout, wait_thread = Open3.popen2(
+      "openssl enc -aes-256-cbc -d -in '#{enc_file_path}' " +
+      "-out '#{file_path}' -pass stdin")
+    stdin.write(password)
+    stdin.close
+    exit_status = wait_thread.value
+
+    # DEBUG
+    puts "openssl output: #{stdout.read}"
+
+    # Check that encryption worked
+    if exit_status != 0 then
+      errors.add(:data, "does not match the given password")
+      return
+    end
+
+    # Remove encrypted file, add unencrypted file
+    Zippy.open(data.path) do |zip|
+      zip.delete(enc_file_name)
+      zip[file_name] = File.binread(file_path)
+    end
+  end
+
+  def exam_base_name
+    base_name = File.basename(data_file_name)
+    base_name = base_name.chomp(File.extname(base_name))
+    base_name
   end
 end
