@@ -4,8 +4,8 @@ class ExamsController < ApplicationController
   before_filter :can_view_exam, :only => [:show]
 
   def index
-    @exams = current_user.exams
-    @tests = current_user.tests
+    @exams_participated = current_user.exams_participated
+    @exams_created = current_user.exams_created
   end
 
   def show

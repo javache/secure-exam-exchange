@@ -1,6 +1,8 @@
 <h2><%= @exam.name %></h2>
 
 <dl>
+  <dt>Professor</dt>
+  <dd><%= @exam.user.name %></dd>
   <dt>Start</dt><dd><%= @exam.start_time %></dd>
   <dt>End</dt><dd><%= @exam.end_time %></dd>
   <% if can_edit_exam? || @exam.in_progress? %>
@@ -42,7 +44,7 @@
 <p><strong>Actions:</strong>
 <% if can_edit_exam? %>
   <%= link_to "download answers", download_answers_exam_path(@exam) %> &mdash;
-  <%= link_to "upload results", download_answers_exam_path(@exam) %>
+  <%= link_to "upload results", @exam %>
 <% else %>
   <%= link_to "upload answers", upload_answers_exam_path(@exam) %>
 <% end %>
