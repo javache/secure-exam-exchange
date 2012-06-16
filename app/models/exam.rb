@@ -70,7 +70,7 @@ class Exam < ActiveRecord::Base
       errors.add(:data, "needs #{file_name}.asc")
     end
       
-    if !files.include?(file_name) and !files.include?(file_name + ".enc") then
+    if !files.include?(file_name) and !files.include?(enc_exam_base_name) then
       errors.add(:data, "needs #{file_name} or #{file_name}.enc")
     end
   end
@@ -78,8 +78,7 @@ class Exam < ActiveRecord::Base
   # Unlock an exam with a password
   def unlock(password)
     # Find the encrypted file
-    file_name = exam_base_name
-    enc_file_name = file_name + ".enc"
+    enc_file_name = enc_exam_base_name
     if !Zippy.list(data.path).include? enc_file_name then
       errors.add(:data, "is not locked")
       return
@@ -91,6 +90,7 @@ class Exam < ActiveRecord::Base
     puts "Wrote #{enc_file_path}"
 
     # Create a temporary file for the unencrypted file
+    file_name = exam_base_name
     file_path = File.join(Dir.tmpdir, file_name)
     stdin, stdout, wait_thread = Open3.popen2(
       "openssl enc -aes-256-cbc -d -in '#{enc_file_path}' " +
@@ -115,9 +115,19 @@ class Exam < ActiveRecord::Base
     end
   end
 
+  def locked?
+    Zippy.list(data.path).include? enc_exam_base_name
+  end
+
+  private
+
   def exam_base_name
     base_name = File.basename(data_file_name)
     base_name = base_name.chomp(File.extname(base_name))
     base_name
+  end
+
+  def enc_exam_base_name
+    exam_base_name + ".enc"
   end
 end
