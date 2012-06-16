@@ -2,6 +2,7 @@ class ExamsController < ApplicationController
   respond_to :html
   before_filter :can_edit_exam, :except => [:index, :show, :new, :create]
   before_filter :can_view_exam, :only => [:show]
+  skip_before_filter :can_edit_exam, :only => [:upload_answers]
 
   def index
     @exams_participated = current_user.exams_participated
@@ -48,7 +49,8 @@ class ExamsController < ApplicationController
   end
 
   def upload_answers
-    @participation = @exam.participations.where(:user_id => current_user.id).first
+    @participation = Participation.where(:user_id => current_user.id, :exam_id => params[:id]).first
+    #@participation = @exam.participations.where(:user_id => current_user.id).first
 
     respond_with @participation
   end

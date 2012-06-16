@@ -15,7 +15,7 @@ ZIP="$FILE.zip"
 # (verify later using gpg -v --verify $FILE_SIG $FILE)
 FILE_SIG="$FILE.sig"
 echo "Signing $FILE..."
-gpg -v --digest-algo SHA512 --detach-sig --armor "$FILE"
+gpg -v  --out "$FILE_SIG" --digest-algo SHA512 --detach-sig --armor "$FILE"
 
 # Check if signing worked: both files must exist
 if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then
