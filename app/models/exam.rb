@@ -66,10 +66,12 @@ class Exam < ActiveRecord::Base
     files = Zippy.list(path)
     file_name = exam_base_name
 
+    # TO FIX: does not work with filenames containing spaces
+    # and probably other 'unsafe' characters
     if !files.include?(file_name + ".asc")
       errors.add(:data, "needs #{file_name}.asc")
     end
-      
+
     if !files.include?(file_name) and !files.include?(enc_exam_base_name) then
       errors.add(:data, "needs #{file_name} or #{file_name}.enc")
     end

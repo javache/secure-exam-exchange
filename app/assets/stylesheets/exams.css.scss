@@ -1,3 +1,19 @@
 // Place all the styles related to the Exams controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+dt {
+  margin-top: 10px;
+  font-weight: 900;
+}
+
+dd {
+  margin-left: 0;
+}
+
+.attention-required {
+  border: 2px solid #D00;
+  background: #FFEAEA;
+  padding: 0 20px;
+  width: 60%;
+}

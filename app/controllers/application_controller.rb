@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_valid_user, :except => :welcome
   def require_valid_user
     # Development aid
-    session[:user_id] = User.first.id if request.local?
+    session[:user_id] ||= User.first.id if request.local?
 
     if session[:user_id].blank?
       redirect_to cas_auth_path

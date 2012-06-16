@@ -36,7 +36,7 @@ if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then
 fi
 
 # Lock if necessary
-# (unlock later using openssl enc -aes-256-cbc -d -in "$FILE" -out "$FILE_ENC")
+# (unlock later using openssl enc -aes-256-cbc -d -in "$FILE_ENC" -out "$FILE")
 if "$LOCK"; then
     FILE_ENC="$FILE.enc"
     echo "Encrypting $FILE..."
@@ -53,7 +53,7 @@ fi
 
 # Zip necessary files
 echo "Zipping data into $ZIP..."
-zip "$ZIP" "$FILE" "$FILE_SIG"
+zip -j "$ZIP" "$FILE" "$FILE_SIG"
 
 # Cleanup
 rm "$FILE_SIG"

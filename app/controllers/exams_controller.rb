@@ -13,7 +13,7 @@ class ExamsController < ApplicationController
   end
 
   def create
-    @exam = Exam.create(params[:exam])
+    @exam = Exam.new(params[:exam])
     @exam.user = current_user
     @exam.save
     respond_with @exam
