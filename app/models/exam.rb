@@ -62,8 +62,13 @@ class Exam < ActiveRecord::Base
     files = Zippy.list(path)
     file_name = File.basename(data_file_name)
     file_name = file_name.chomp(File.extname(file_name))
-    if !files.include?(file_name) or !files.include?(file_name + ".sig") then
-      errors.add(:data, "needs #{file_name} and #{file_name}.sig")
+
+    if !files.include?(file_name + ".asc")
+      errors.add(:data, "needs #{file_name}.asc")
+    end
+      
+    if !files.include?(file_name) and !files.include?(file_name + ".enc") then
+      errors.add(:data, "needs #{file_name} or #{file_name}.enc")
     end
   end
 end
