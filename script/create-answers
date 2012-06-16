@@ -13,9 +13,9 @@ ZIP="$FILE.zip"
 
 # Sign file
 # (verify later using gpg -v --verify $FILE_SIG $FILE)
-FILE_SIG="$FILE.sig"
+FILE_SIG="$FILE.asc"
 echo "Signing $FILE..."
-gpg -v  --out "$FILE_SIG" --digest-algo SHA512 --detach-sig --armor "$FILE"
+gpg -v  --digest-algo SHA512 --detach-sig --armor "$FILE"
 
 # Check if signing worked: both files must exist
 if test ! -f "$FILE" -o ! -f "$FILE_SIG"; then
@@ -25,7 +25,7 @@ fi
 
 # Encrypt file
 # (decrypt later using gpg -v -d $FILE_ENC)
-FILE_ENC="$FILE.asc"
+FILE_ENC="$FILE.enc"
 echo "Encrypting $FILE..."
 USER=$(gpg --list-secret-keys | grep -m 1 -o '<.*@.*>$')
 gpg -v --out "$FILE_ENC" --cipher-algo AES256 --encrypt \
