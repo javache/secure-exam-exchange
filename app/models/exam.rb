@@ -41,7 +41,7 @@ class Exam < ActiveRecord::Base
   # An exam is in progress if if start_time < Time.now < end_time
   # and it is not locked
   def in_progress?
-    Time.now.utc.between?(start_time,end_time) && !locked?
+    Time.now.between?(start_time, end_time) && !locked?
   end
 
   def start_before_end
@@ -88,7 +88,7 @@ class Exam < ActiveRecord::Base
 
     # Create a temporary file and write the encrypted file there
     enc_file_path = File.join(Dir.tmpdir, enc_file_name)
-    File.open(enc_file_path, 'w+:ASCII-8BIT') do |f|
+    File.open(enc_file_path, 'wb') do |f|
       f.write(Zippy.read(data.path, enc_file_name))
     end
     puts "Wrote #{enc_file_path}"
