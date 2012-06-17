@@ -1,6 +1,8 @@
 require 'fileutils'
 require 'open3'
 require 'tmpdir'
+require 'digest'
+require 'fileutils'
 
 class Exam < ActiveRecord::Base
   has_many :participations
@@ -121,6 +123,36 @@ class Exam < ActiveRecord::Base
 
   def locked?
     Zippy.list(data.path).include? enc_exam_base_name
+  end
+
+  def generate_download(user)
+    # I use hexdigest since that is more human-readable
+    hash = Digest::SHA512.file(data.path).hexdigest
+    time = Time.now.utc
+    name = user.name
+
+    file_name = "#{name}-#{time}"
+    proof = "#{name}-#{time}:\n#{hash}"
+    tmp_dir = Dir.tmpdir
+    tmp_file_path = File.join(tmp_dir, file_name)
+
+
+    # create signature for proof
+    stdin, stdout, wait_thread = Open3.popen2("gpg --detach-sign")
+    stdin.write(proof)
+    stdin.close
+    exit_status = wait_thread.value
+
+    Zippy.create(tmp_file_path) do |zip|
+      zip['proof'] = proof
+      zip['proof.sig'] = stdout.read
+      zip['exam.zip'] = open(data.path)
+    end
+
+    yield tmp_file_path
+
+    File.unlink tmp_file_path
+
   end
 
   private

@@ -48,7 +48,9 @@ class ExamsController < ApplicationController
   end
 
   def download
-    send_file @exam.data.path, :type => @exam.data.content_type
+    @exam.generate_download(current_user) do |file_path|
+      send_file file_path, :type => @exam.data.content_type
+    end
   end
 
   private
