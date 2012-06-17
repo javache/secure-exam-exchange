@@ -41,6 +41,15 @@ h1 a:hover {
     border: none;
 }
 
+h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    margin: 0.5em 0 0;
+}
+
+h3 {
+    font-style: italic;
+}
+
 /* Content */
 #content {
     background: #eee;
@@ -73,18 +82,13 @@ a:hover {
     border-bottom: 1px solid #800;
 }
 
-h2, h3, h4, h5, h6 {
-    font-weight: normal;
-    margin-top: 0.5em;
-}
-
 fieldset {
-    border: 0px;
+    border: 0;
 }
 
 fieldset {
     margin-bottom: 5px;
-    padding: 0px;
+    padding: 0;
 }
 
 label {
@@ -102,4 +106,33 @@ input, select {
 
 .checkbox-list label {
     width: auto;
+}
+
+.go-back {
+    font-size: 0.8em;
+}
+
+dl {
+  margin-top: 0.5em;
+}
+
+dt {
+  margin-top: 10px;
+  font-weight: 900;
+}
+
+dd {
+  margin-left: 0;
+}
+
+dd ul {
+  margin-top: 0.5em;
+}
+
+.attention-required {
+  border: 2px solid #D00;
+  background: #FFEAEA;
+  padding: 0 20px;
+  margin-top: 10px;
+  width: 60%;
 }

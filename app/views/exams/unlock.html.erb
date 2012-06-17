@@ -1,14 +1,15 @@
 <h2>Unlock <%= @exam.name %></h2>
 <%= form_for @exam, :url => unlock_exam_path(@exam) do |f| %>
-  <ul>
+  <div class="attention-required"><ul>
     <% @exam.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
-  </ul>
+  </ul></div>
 
-  <%= label_tag "Keyphrase:" %>
-  <%= password_field_tag "password" %>
-  <br>
+  <p>
+    <%= label_tag "Keyphrase:" %>
+    <%= password_field_tag "password" %>
+  </p>
 
-  <%= f.submit "Unlock" %>
+  <p><%= f.submit "Unlock" %></p>
 <% end %>

@@ -1,6 +1,6 @@
 class ExamsController < ApplicationController
   respond_to :html
-  before_filter :can_edit_exam, :except => [:index, :show, :new, :create, :upload_answers]
+  before_filter :can_edit_exam, :except => [:index, :show, :new, :create]
   before_filter :can_view_exam, :only => [:show, :upload_answers]
 
   def index
@@ -9,7 +9,7 @@ class ExamsController < ApplicationController
   end
 
   def show
-    @exam = Exam.find(params[:id])
+    @participation = @exam.participations.find { |p| p.user == current_user }
   end
 
   def create
@@ -45,25 +45,6 @@ class ExamsController < ApplicationController
         redirect_to exam_path(@exam)
       end
     end
-  end
-
-  def upload_answers
-    @participation = Participation.where(:user_id => current_user.id, :exam_id => params[:id]).first
-    #@participation = @exam.participations.where(:user_id => current_user.id).first
-
-    respond_with @participation
-  end
-
-  def download_answers
-    @participations = @exam.participations.select { |p| p.answers.present? }
-
-    # TODO: maybe generate one big zip with all the current answers in?
-    # See fk-enrolment
-  end
-
-  def upload_results
-    @exam = Exam.find(params[:id])
-    @participations = exam.participations
   end
 
   private

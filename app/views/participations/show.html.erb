@@ -1,3 +1,48 @@
-<h1> Participation </h1>
-<p><%= link_to 'answers', @participation.answers.url %></p>
-<p><%= link_to 'results', @participation.results.url %></p>
+<h2><%= @exam.name %> - <%= @participation.user.name %></h2>
+<p class="go-back"><%= link_to raw("&laquo; return to exam"), @exam %></small>
+
+<h3>Personal information</h3>
+<dl>
+  <dt>Student</dt>
+  <dd><%= @participation.user.name %></dd>
+  <dt>Identifier</dt>
+  <dd><%= @participation.user.ugent_id %></dd>
+  <dt>E-mail</dt>
+  <dd><%= @participation.user.email %></dd>
+</dl>
+
+<h3>Exam information</h3>
+<dl>
+<% if @participation.answers.present? %>
+  <dt>Answers</dt>
+  <dd><%= link_to @participation.answers_base_name,
+            @participation.answers.url %>
+      (Uploaded <%= @participation.answers_updated_at %>)
+  </dd>
+<% elsif can_submit_exam? %>
+  <dt>Answers</dt>
+  <dd class="attention-required">
+    <%= form_for @participation do |f| %>
+      <p>Please select the answers-bundle you have created using the
+        <code>create-answers</code> utility.</p>
+      <p><%= f.file_field :answers %> <%= f.submit 'Upload' %></p>
+    <% end %>
+  </dd>
+<% end %>
+<% if @participation.results.present? %>
+  <dt>Results</dt>
+  <dd><%= link_to @participation.results_base_name,
+            @participation.results.url %>
+      (Uploaded <%= @participation.results_updated_at %>)
+  </dd>
+<% elsif can_edit_exam? %>
+  <dt>Results</dt>
+  <dd class="attention-required">
+    <%= form_for @participation do |f| %>
+      <p>Please select the results-bundle you have created using the
+        <code>create-results</code> utility.</p>
+      <p><%= f.file_field :results %> <%= f.submit 'Upload' %></p>
+    <% end %>
+  </dd>
+<% end %>
+</dl>

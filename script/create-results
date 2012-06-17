@@ -39,7 +39,7 @@ fi
 
 # Zip necessary files
 echo "Zipping data into $ZIP..."
-zip "$ZIP" "$FILE_ENC" "$FILE_SIG"
+zip -j "$ZIP" "$FILE_ENC" "$FILE_SIG"
 
 # Cleanup
 rm "$FILE_SIG"

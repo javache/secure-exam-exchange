@@ -127,8 +127,7 @@ class Exam < ActiveRecord::Base
 
   def exam_base_name
     base_name = File.basename(data_file_name)
-    base_name = base_name.chomp(File.extname(base_name))
-    base_name
+    base_name.chomp(File.extname(base_name))
   end
 
   def enc_exam_base_name

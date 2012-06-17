@@ -5,21 +5,26 @@
   <dd><%= @exam.user.name %></dd>
   <dt>Start</dt><dd><%= @exam.start_time %></dd>
   <dt>End</dt><dd><%= @exam.end_time %></dd>
+
   <% if can_edit_exam? || @exam.in_progress? %>
   <dt>Download exam</dt>
   <dd><%= link_to @exam.data_file_name, @exam.data.url %></dd>
   <% end %>
+
   <% if can_edit_exam? %>
   <dt>Participants (<%= link_to "edit", edit_users_exam_path(@exam) %>)</dt>
   <dd>
   <% if @exam.participations.empty? %>
     No participants yet, please add some!
   <% else %>
-    <ul>
-      <% @exam.participations.each do |p| %>
-        <li><%= p.user.name %></li>
-      <% end %>
-    </ul>
+    <ul><% @exam.participations.each do |p| %>
+      <li>
+        <%= link_to p.user.name, p %>
+        <% if p.answers.present? %>
+          (<%= link_to "download answers", p.answers.url %>)
+        <% end %>
+      </li>
+    <% end %></ul>
   </dd>
   <% end %>
   <% end %>
@@ -33,7 +38,7 @@
   </p>
   <%= form_for @exam, :url => unlock_exam_path(@exam) do |f| %>
     <p>
-      <%= label_tag "Kephrase:" %>
+      <%= label_tag "Keyphrase:" %>
       <%= password_field_tag "password" %>
       <%= f.submit "Unlock" %>
     </p>
@@ -41,11 +46,6 @@
 </div>
 <% end %>
 
-<p><strong>Actions:</strong>
-<% if can_edit_exam? %>
-  <%= link_to "download answers", download_answers_exam_path(@exam) %> &mdash;
-  <%= link_to "upload results", @exam %>
-<% else %>
-  <%= link_to "upload answers", upload_answers_exam_path(@exam) %>
+<% if @exam.participant? current_user %>
+<p><%= link_to "View participation", @participation %></p>
 <% end %>
-</p>

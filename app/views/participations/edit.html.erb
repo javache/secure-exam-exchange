@@ -1,0 +1,16 @@
+<h2><%= @exam.name %> - <%= @participation.user.name %></h2>
+
+<%= form_for @participation do |f| %>
+  <div class="attention-required"><ul>
+    <% @participation.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul></div>
+
+  <p>
+    <%= f.label :answers %>
+    <%= f.file_field :answers %>
+  </p>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>

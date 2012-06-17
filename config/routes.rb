@@ -16,7 +16,6 @@ SecureExamExchange::Application.routes.draw do
       get "upload_results"
     end
   end
-  resources :users
 
   match "cas/auth"
   match "cas/verify"

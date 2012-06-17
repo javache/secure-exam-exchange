@@ -1,8 +1,0 @@
-<h2> Download individual answers </h2>
-<ul>
-
-  <% @participations.each do |par| %>
-    <li><%= link_to par.user.name, par.answers.url %></li>
-  <% end %>
-
-</ul>
