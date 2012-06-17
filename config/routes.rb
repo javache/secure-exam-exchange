@@ -14,6 +14,7 @@ SecureExamExchange::Application.routes.draw do
       get "upload_answers"
       get "download_answers"
       get "upload_results"
+      get "download"
     end
   end
 

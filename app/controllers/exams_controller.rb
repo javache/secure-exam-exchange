@@ -1,7 +1,7 @@
 class ExamsController < ApplicationController
   respond_to :html
   before_filter :can_edit_exam, :except => [:index, :show, :new, :create]
-  before_filter :can_view_exam, :only => [:show, :upload_answers]
+  before_filter :can_view_exam, :only => [:show, :upload_answers, :download]
 
   def index
     @exams_participated = current_user.exams_participated
@@ -45,6 +45,10 @@ class ExamsController < ApplicationController
         redirect_to exam_path(@exam)
       end
     end
+  end
+
+  def download
+    send_file @exam.data.path, :type => @exam.data.content_type
   end
 
   private

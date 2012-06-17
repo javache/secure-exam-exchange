@@ -8,7 +8,7 @@
 
   <% if can_edit_exam? || @exam.in_progress? %>
   <dt>Download exam</dt>
-  <dd><%= link_to @exam.data_file_name, @exam.data.url %></dd>
+  <dd><%= link_to @exam.data_file_name, download_exam_path(@exam) %></dd>
   <% end %>
 
   <% if can_edit_exam? %>
