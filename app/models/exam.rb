@@ -132,27 +132,23 @@ class Exam < ActiveRecord::Base
     name = user.name
 
     file_name = "#{name}-#{time}"
-    proof = "#{name}-#{time}:\n#{hash}"
+    proof = "Student: #{name}\nTime: #{time}\nExam: #{hash}\n\n"
     tmp_dir = Dir.tmpdir
     tmp_file_path = File.join(tmp_dir, file_name)
 
-
     # create signature for proof
-    stdin, stdout, wait_thread = Open3.popen2("gpg --detach-sign")
+    stdin, stdout, wait_thread = Open3.popen2("gpg --clearsign --digest-algo SHA512")
     stdin.write(proof)
     stdin.close
     exit_status = wait_thread.value
 
     Zippy.create(tmp_file_path) do |zip|
-      zip['proof'] = proof
-      zip['proof.sig'] = stdout.read
+      zip['proof.txt'] = stdout.read
       zip['exam.zip'] = open(data.path)
     end
-
     yield tmp_file_path
 
     File.unlink tmp_file_path
-
   end
 
   private
