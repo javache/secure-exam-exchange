@@ -21,7 +21,7 @@ class Participation < ActiveRecord::Base
 
   # Validator method to check if the zip file is sane
   def verify_files_present(label, attachment, req_files)
-    if File.extname(answers.original_filename) != ".zip" then
+    if File.extname(attachment.original_filename || "") != ".zip" then
       errors.add(label, "needs to be a zip file")
       return
     end
@@ -78,7 +78,7 @@ class Participation < ActiveRecord::Base
   end
 
   def results_base_name
-    base_name = File.basename(answers_file_name)
+    base_name = File.basename(results_file_name)
     base_name.chomp(File.extname(base_name))
   end
 end

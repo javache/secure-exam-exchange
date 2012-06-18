@@ -3,9 +3,7 @@ SecureExamExchange::Application.routes.draw do
 
   resources :participations do
     member do
-      put "upload_results"
-      put "upload_answers"
-      get "download_upload_proof"
+      get 'proof'
     end
   end
 
@@ -13,9 +11,6 @@ SecureExamExchange::Application.routes.draw do
     member do
       match "edit_users"
       match "unlock"
-      get "upload_answers"
-      get "download_answers"
-      get "upload_results"
       get "download"
     end
   end

@@ -7,10 +7,19 @@
     <% end %>
   </ul></div>
 
+  <% if can_submit_exam? %>
   <p>
     <%= f.label :answers %>
     <%= f.file_field :answers %>
   </p>
+  <% end %>
+
+  <% if can_edit_exam? %>
+  <p>
+    <%= f.label :results %>
+    <%= f.file_field :results %>
+  </p>
+  <% end %>
 
   <p><%= f.submit "Submit" %></p>
 <% end %>

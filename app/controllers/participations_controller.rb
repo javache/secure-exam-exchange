@@ -7,30 +7,32 @@ class ParticipationsController < ApplicationController
   end
 
   def update
-    # TODO: check if exam is still avaiable for participation
-    @participation.attributes = params[:participation]
-    @participation.save
+    # user is participant
+    if params[:participation] and @participation.user == current_user
+      if @participation.answers.present?
+        return head :forbidden
+      else
+        @participation.answers = params[:participation][:answers]
+      end
+    end
 
+    # user is examinator
+    if params[:participation] and @exam.can_edit? current_user
+      if @participation.results.present?
+        return head :forbidden
+      else
+        @participation.results = params[:participation][:results]
+      end
+    end
+
+    @participation.save
     respond_with @participation
   end
 
-  def upload_answers
-    @participation.answers = params[:participation][:answers]
-    @participation.save
-
-    respond_with @participation
-  end
-
-  def download_upload_proof
+  def proof
     @participation.generate_upload_proof(current_user) do |path|
       send_file path
     end
-  end
-
-  def upload_results
-    @participation.results = params[:participation][:results]
-    @participation.save
-    respond_with @participation
   end
 
   private
@@ -38,7 +40,7 @@ class ParticipationsController < ApplicationController
   def can_edit_participation
     @participation = Participation.find(params[:id])
     @exam = @participation.exam
-    unless @participation.exam.can_edit? current_user ||
+    unless @exam.can_edit? current_user ||
            @participation.user == current_user
       head :forbidden
     end
