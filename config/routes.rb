@@ -5,6 +5,7 @@ SecureExamExchange::Application.routes.draw do
     member do
       put "upload_results"
       put "upload_answers"
+      get "download_upload_proof"
     end
   end
 

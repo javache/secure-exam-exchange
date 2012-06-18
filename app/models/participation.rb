@@ -45,11 +45,10 @@ class Participation < ActiveRecord::Base
     end
   end
 
-
   def generate_upload_proof(user)
     hash = Digest::SHA512.file(answers.path).hexdigest
 
-    time = Time.now.utc
+    time = answers_updated_at
     name = user.name
 
     file_name = "#{name}-#{time}"

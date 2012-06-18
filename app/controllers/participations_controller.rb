@@ -18,8 +18,12 @@ class ParticipationsController < ApplicationController
     @participation.answers = params[:participation][:answers]
     @participation.save
 
+    respond_with @participation
+  end
+
+  def download_upload_proof
     @participation.generate_upload_proof(current_user) do |path|
-      send_file path, type: @participation.answers.content_type
+      send_file path
     end
   end
 

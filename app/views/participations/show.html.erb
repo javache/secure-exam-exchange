@@ -19,6 +19,11 @@
             @participation.answers.url %>
       (Uploaded <%= @participation.answers_updated_at %>)
   </dd>
+  <dt>Proof of Participation</dt>
+  <dd>
+    <%= link_to 'Download',
+          download_upload_proof_participation_path(@participation) %>
+  </dd>
 <% elsif can_submit_exam? %>
   <dt>Answers</dt>
   <dd class="attention-required">
