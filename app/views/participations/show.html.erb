@@ -16,13 +16,12 @@
 <% if @participation.answers.present? %>
   <dt>Answers</dt>
   <dd><%= link_to @participation.answers_file_name,
-            @participation.answers.url %>
+            answers_participation_path(@participation) %>
       (Uploaded <%= @participation.answers_updated_at %>)
   </dd>
   <dt>Proof of Participation</dt>
   <dd>
-    <%= link_to 'Download',
-          download_upload_proof_participation_path(@participation) %>
+    <%= link_to 'Download', proof_participation_path(@participation) %>
   </dd>
 <% elsif can_submit_exam? %>
   <dt>Answers</dt>
@@ -36,8 +35,8 @@
 <% end %>
 <% if @participation.results.present? %>
   <dt>Results</dt>
-  <dd><%= link_to @participation.results_file_name ,
-            @participation.results.url %>
+  <dd><%= link_to @participation.results_file_name,
+            results_participation_path(@participation) %>
       (Uploaded <%= @participation.results_updated_at %>)
   </dd>
 <% elsif can_edit_exam? %>

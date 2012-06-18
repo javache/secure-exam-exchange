@@ -3,7 +3,9 @@ SecureExamExchange::Application.routes.draw do
 
   resources :participations do
     member do
+      get 'answers'
       get 'proof'
+      get 'results'
     end
   end
 

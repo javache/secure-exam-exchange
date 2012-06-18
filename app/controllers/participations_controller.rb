@@ -35,6 +35,16 @@ class ParticipationsController < ApplicationController
     end
   end
 
+  def answers
+    send_file @participation.answers.path,
+      :filename => "#{@participation.user.name}-answers.zip"
+  end
+
+  def results
+    send_file @participation.results.path,
+      :filename => "#{@participation.user.name}-results.zip"
+  end
+
   private
 
   def can_edit_participation

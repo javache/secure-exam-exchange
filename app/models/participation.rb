@@ -64,9 +64,8 @@ class Participation < ActiveRecord::Base
 
     Zippy.create(tmp_file_path) do |zip|
       zip['proof.txt'] = stdout.read
-      zip['exam.zip'] = open(exam.data.path)
+      zip['answers.zip'] = open(answers.path)
     end
-
     yield tmp_file_path
 
     File.unlink tmp_file_path
