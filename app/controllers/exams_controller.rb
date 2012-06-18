@@ -4,7 +4,10 @@ class ExamsController < ApplicationController
   before_filter :can_view_exam, :only => [:show, :upload_answers, :download]
 
   def index
-    @exams_participated = current_user.exams_participated
+    @exams_participated = current_user.exams_participated.select do |exam|
+      exam.can_view?(current_user)
+    end
+
     @exams_created = current_user.exams_created
   end
 
@@ -64,7 +67,7 @@ class ExamsController < ApplicationController
 
   def can_view_exam
     @exam = Exam.find params[:id]
-    unless @exam.participant? current_user or @exam.can_edit? current_user
+    unless @exam.can_view? current_user
       head :forbidden
     end
   end

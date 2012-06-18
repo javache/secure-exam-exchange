@@ -1,8 +1,7 @@
+require 'digest'
 require 'fileutils'
 require 'open3'
 require 'tmpdir'
-require 'digest'
-require 'fileutils'
 
 class Exam < ActiveRecord::Base
   has_many :participations
@@ -33,6 +32,11 @@ class Exam < ActiveRecord::Base
   # Check if a certain user can edit this exam
   def can_edit?(owner)
     user == owner
+  end
+
+  # Check if a user can view this exam
+  def can_view?(viewer)
+    can_edit?(viewer) or (participant?(viewer) and in_progress? and not locked?)
   end
 
   # Check if a certain user is a participant of this exam
