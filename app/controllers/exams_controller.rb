@@ -51,8 +51,12 @@ class ExamsController < ApplicationController
   end
 
   def download
-    @exam.generate_download(current_user) do |file_path|
-      send_file file_path, :type => @exam.data.content_type
+    if @exam.in_progress?
+      @exam.generate_download(current_user) do |file_path|
+        send_file file_path, :type => @exam.data.content_type
+      end
+    else
+      head :forbidden
     end
   end
 
