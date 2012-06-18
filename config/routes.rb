@@ -4,6 +4,7 @@ SecureExamExchange::Application.routes.draw do
   resources :participations do
     member do
       get "upload_results"
+      put "upload_answers"
     end
   end
 

@@ -8,14 +8,19 @@ class ParticipationsController < ApplicationController
 
   def update
     # TODO: check if exam is still avaiable for participation
-    # TODO: this method will also be used for results submission
-    #if @participation.answers.present? && params[:participation][:answers]
-    #  head :forbidden
-    #else
-      @participation.attributes = params[:participation]
-      @participation.save
-      respond_with @participation
-    #end
+    @participation.attributes = params[:participation]
+    @participation.save
+
+    respond_with @participation
+  end
+
+  def upload_answers
+    @participation.answers = params[:participation][:answers]
+    @participation.save
+
+    @participation.generate_upload_proof(current_user) do |path|
+      send_file path, type: @participation.answers.content_type
+    end
   end
 
   private

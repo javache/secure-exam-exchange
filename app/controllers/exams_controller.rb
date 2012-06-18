@@ -37,7 +37,8 @@ class ExamsController < ApplicationController
       @exam.edit_users(users)
       redirect_to exam_path(@exam)
     else
-      @users = User.where "id != :id", id: current_user.id
+#      @users = User.where "id != :id", id: current_user.id
+      @users = User.all
     end
   end
 

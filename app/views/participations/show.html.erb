@@ -22,7 +22,8 @@
 <% elsif can_submit_exam? %>
   <dt>Answers</dt>
   <dd class="attention-required">
-    <%= form_for @participation do |f| %>
+  <%= form_for @participation,
+    url: upload_answers_participation_path(@participation) do |f| %>
       <p>Please select the answers-bundle you have created using the
         <code>create-answers</code> utility.</p>
       <p><%= f.file_field :answers %> <%= f.submit 'Upload' %></p>
