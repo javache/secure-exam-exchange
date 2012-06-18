@@ -23,6 +23,12 @@ class ParticipationsController < ApplicationController
     end
   end
 
+  def upload_results
+    @participation.results = params[:participation][:results]
+    @participation.save
+    respond_with @participation
+  end
+
   private
 
   def can_edit_participation

@@ -15,7 +15,7 @@
 <dl>
 <% if @participation.answers.present? %>
   <dt>Answers</dt>
-  <dd><%= link_to @participation.answers_base_name,
+  <dd><%= link_to @participation.answers_file_name,
             @participation.answers.url %>
       (Uploaded <%= @participation.answers_updated_at %>)
   </dd>
@@ -32,14 +32,15 @@
 <% end %>
 <% if @participation.results.present? %>
   <dt>Results</dt>
-  <dd><%= link_to @participation.results_base_name,
+  <dd><%= link_to @participation.results_file_name ,
             @participation.results.url %>
       (Uploaded <%= @participation.results_updated_at %>)
   </dd>
 <% elsif can_edit_exam? %>
   <dt>Results</dt>
   <dd class="attention-required">
-    <%= form_for @participation do |f| %>
+    <%= form_for @participation,
+      url: upload_results_participation_path(@participation) do |f| %>
       <p>Please select the results-bundle you have created using the
         <code>create-results</code> utility.</p>
       <p><%= f.file_field :results %> <%= f.submit 'Upload' %></p>
