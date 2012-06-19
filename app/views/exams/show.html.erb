@@ -18,12 +18,7 @@
     No participants yet, please add some!
   <% else %>
     <ul><% @exam.participations.each do |p| %>
-      <li>
-        <%= link_to p.user.name, p %>
-        <% if p.answers.present? %>
-          (<%= link_to "download answers", p.answers.url %>)
-        <% end %>
-      </li>
+      <li><%= link_to p.user.name, p %></li>
     <% end %></ul>
   </dd>
   <% end %>

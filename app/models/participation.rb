@@ -51,7 +51,7 @@ class Participation < ActiveRecord::Base
     time = answers_updated_at
     name = user.name
 
-    file_name = "#{name}-#{time}"
+    file_name = "#{name}-#{time}.zip"
     proof = "Student: #{name}\nTime: #{time}\nAnswers: #{hash}\n\n"
     tmp_dir = Dir.tmpdir
     tmp_file_path = File.join(tmp_dir, file_name)
