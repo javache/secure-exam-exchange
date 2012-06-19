@@ -135,7 +135,7 @@ class Exam < ActiveRecord::Base
     time = Time.now.utc
     name = user.name
 
-    file_name = "#{name}-#{time}"
+    file_name = "#{name}-#{time}.zip"
     proof = "Student: #{name}\nTime: #{time}\nExam: #{hash}\n\n"
     tmp_dir = Dir.tmpdir
     tmp_file_path = File.join(tmp_dir, file_name)

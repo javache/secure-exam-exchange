@@ -50,8 +50,7 @@ class ParticipationsController < ApplicationController
   def can_edit_participation
     @participation = Participation.find(params[:id])
     @exam = @participation.exam
-    unless @exam.can_edit? current_user ||
-           @participation.user == current_user
+    if (!@exam.can_edit? current_user) && (@participation.user != current_user)
       head :forbidden
     end
   end
